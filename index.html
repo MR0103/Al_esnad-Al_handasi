@@ -1,10 +1,2107 @@
+<!--  الإسناد الهندسي - نسخة نظيفة من أكواد السيرفر  -->
+
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-    <title>الإسناد الهندسي</title>
+    <!-- ========== أيقونات التطبيق ========== -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/N2FNLD7N/image.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.ibb.co/N2FNLD7N/image.png">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/N2FNLD7N/image.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الإسناد الهندسي | نظام متكامل</title>
+    <meta name="theme-color" content="#1a5e1a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- ========== الخطوط والمكتبات ========== -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- ========== التصميم الرئيسي ========== -->
+    <style>
+        /* -------------------- المتغيرات العامة -------------------- */
+        :root {
+            --primary: #1a5e1a;
+            --primary-dark: #0f3f0f;
+            --primary-light: #2d7d2d;
+            --accent: #4caf50;
+            --background: #f5f7fa;
+            --surface: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border: #e0e0e0;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.16);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* ألوان النوافذ الجديدة */
+            --mechanical: #e67e22;
+            --plans: #3498db;
+            --database: #9b59b6;
+            --maintenance: #e74c3c;
+            --spare: #95a5a6;
+        }
+
+        /* -------------------- إعادة تعيين الأنماط -------------------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: url('https://i.ibb.co/DfMCvycX/image.jpg') center/cover fixed;
+            min-height: 100vh;
+        }
+
+        /* -------------------- رسالة المنع المحسنة -------------------- */
+        .permission-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d32f2f;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            animation: slideDown 0.3s ease, fadeOut 0.3s ease 4.7s forwards;
+            direction: rtl;
+        }
+
+        @keyframes slideDown {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+                visibility: hidden;
+            }
+        }
+
+        .permission-toast i {
+            font-size: 1.3rem;
+        }
+
+        /* -------------------- صفحة تسجيل الدخول -------------------- */
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .login-logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-md);
+        }
+
+        .login-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-container h2 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-container p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        /* -------------------- التطبيق الرئيسي -------------------- */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            background: var(--background);
+        }
+
+        /* -------------------- الشريط الجانبي المحسن -------------------- */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            cursor: pointer;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* -------------------- عناصر القائمة -------------------- */
+        .sidebar-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.9rem 1.2rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            color: white;
+            text-decoration: none;
+            position: relative;
+            background: transparent;
+            border: none;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(-5px);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-right: 4px solid white;
+            font-weight: 500;
+        }
+
+        .nav-item i {
+            margin-left: 1rem;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* -------------------- معلومات المستخدم -------------------- */
+        .user-info {
+            margin-top: auto;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: center;
+        }
+
+        #userName {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        #userRole {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        /* -------------------- المحتوى الرئيسي -------------------- */
+        .main-content {
+            margin-right: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* -------------------- رأس الصفحة -------------------- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome-section h1 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .department-info {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .datetime-info {
+            background: var(--surface);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .time {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .date {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* -------------------- شبكة البطاقات -------------------- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.8rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid var(--border);
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: translateX(-100%);
+            transition: var(--transition);
+        }
+
+        .card:hover::before {
+            transform: translateX(0);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* -------------------- النوافذ المنبثقة المحسنة -------------------- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.4s ease;
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--primary);
+        }
+
+        /* -------------------- شبكة الأيقونات -------------------- */
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .icon-item {
+            background: linear-gradient(145deg, var(--surface), #f8f8f8);
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .icon-image {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 0.8rem;
+            transition: var(--transition);
+        }
+
+        .icon-item:hover .icon-image {
+            transform: scale(1.1);
+        }
+
+        .icon-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .icon-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        /* -------------------- النماذج -------------------- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 94, 26, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* -------------------- الأزرار -------------------- */
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-danger {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b71c1c;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        /* -------------------- الجداول -------------------- */
+        .users-table {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-top: 1.5rem;
+        }
+
+        .users-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .users-table tr:hover {
+            background: rgba(26, 94, 26, 0.05);
+        }
+
+        .password-field {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            margin-top: 0.8rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .note-box {
+            background: #fff9e6;
+            border: 1px solid #ffcc00;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: right;
+        }
+
+        /* -------------------- الإعلانات -------------------- */
+        @keyframes glow {
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
+            50% { opacity: 0.8; transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(255,215,0,0.5)); }
+        }
+
+        .pulsating-ad {
+            animation: glow 2s ease-in-out infinite;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .pulsating-ad:hover {
+            animation-play-state: paused;
+        }
+
+        /* -------------------- أيقونة الدعم الجديدة الاحترافية -------------------- */
+        .support-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .support-icon-wrapper:hover {
+            transform: translateY(-5px);
+        }
+
+        .support-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.3rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            animation: pulse 2s infinite;
+            position: relative;
+        }
+
+        .support-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(37, 211, 102, 0.4);
+            animation: ripple 2s infinite;
+        }
+
+        .support-icon i {
+            font-size: 2rem;
+            color: white;
+            z-index: 1;
+        }
+
+        .support-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            background: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* -------------------- التجاوب مع الشاشات -------------------- */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-right: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-right: 0;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .icons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .icons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>مرحباً بكم في الإسناد الهندسي</h1>
-    <p>الموقع قيد الإنشاء...</p>
+    <!-- ========== نظام KEYDOWN الموحد ========== -->
+    <script>
+        (function() {
+            // دالة موحدة لإضافة خاصية Enter لجميع النوافذ
+            function setupEnterKeyListeners() {
+                // نافذة تسجيل الدخول
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') {
+                        event.preventDefault();
+                        login();
+                    }
+                });
+
+                // إضافة المستمعين بعد تحميل DOM
+                document.addEventListener('DOMContentLoaded', function() {
+                    // نافذة القراءات
+                    const readingsInput = document.getElementById('readingsPassword');
+                    if (readingsInput) {
+                        readingsInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkReadingsPassword();
+                            }
+                        });
+                    }
+
+                    // نافذة التبريد
+                    const coolingInput = document.getElementById('coolingPassword');
+                    if (coolingInput) {
+                        coolingInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkCoolingPassword();
+                            }
+                        });
+                    }
+
+                    // نافذة وحدة الكهرباء
+                    const electricityInput = document.getElementById('electricityPassword');
+                    if (electricityInput) {
+                        electricityInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkElectricityPassword();
+                            }
+                        });
+                    }
+                    
+                    // نافذة وحدة الميكانيك
+                    const mechanicalInput = document.getElementById('mechanicalPassword');
+                    if (mechanicalInput) {
+                        mechanicalInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkMechanicalPassword();
+                            }
+                        });
+                    }
+                    
+                    // نافذة مخططات المجمع
+                    const plansInput = document.getElementById('plansPassword');
+                    if (plansInput) {
+                        plansInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkPlansPassword();
+                            }
+                        });
+                    }
+
+                    // نافذة تسجيل الطلب
+                    const maintenanceInput = document.getElementById('maintenancePassword');
+                    if (maintenanceInput) {
+                        maintenanceInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkMaintenancePassword();
+                            }
+                        });
+                    }
+
+                    // نافذة قاعدة البيانات
+                    const databaseInput = document.getElementById('databasePassword');
+                    if (databaseInput) {
+                        databaseInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkDatabasePassword();
+                            }
+                        });
+                    }
+
+                    // نافذة spare
+                    const spareInput = document.getElementById('sparePassword');
+                    if (spareInput) {
+                        spareInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkSparePassword();
+                            }
+                        });
+                    }
+                });
+            }
+
+            // تشغيل النظام
+            setupEnterKeyListeners();
+        })();
+    </script>
+
+    <!-- ========== صفحة تسجيل الدخول ========== -->
+    <div id="loginPage" class="login-container">
+        <div class="login-logo">
+            <img src="https://i.ibb.co/N2FNLD7N/image.png" alt="شعار العتبة العباسية">
+        </div>
+        <h2>الإسناد الهندسي</h2>
+        <h2>العتبة العباسية المقدسة</h2>
+        <p>قسم المشاريع الهندسية - شعبة صيانة مجموعة العميد</p>
+        
+        <div class="form-group">
+            <input type="text" id="loginUsername" class="form-input" placeholder="اسم المستخدم">
+        </div>
+        <div class="form-group">
+            <input type="password" id="loginPassword" class="form-input" placeholder="كلمة المرور">
+        </div>
+        <button class="btn btn-primary" style="width: 100%;" onclick="login()">
+            <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+        </button>
+
+        <!-- أيقونة الدعم الاحترافية الجديدة -->
+        <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+            <a href="https://wa.me/9647735559707" target="_blank" class="support-icon-wrapper" style="border: none; background: none; box-shadow: none;">
+                <div class="support-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="support-text">الدعم التقني</div>
+            </a>
+        </div>
+
+        <p style="font-size: 0.7rem; opacity: 0.6; margin-top: 1rem;">Design by MURTADA AL_JANABY</p>
+        <div id="loginError" class="error-message">اسم المستخدم أو كلمة المرور غير صحيحة!</div>
+    </div>
+
+    <!-- ========== التطبيق الرئيسي ========== -->
+    <div id="appContainer" class="app-container">
+        <!-- الشريط الجانبي -->
+        <div class="sidebar">
+            <div class="sidebar-header" onclick="showDashboard()">
+                <div class="logo" onclick="showDashboard()">
+                    <img src="https://i.ibb.co/N2FNLD7N/image.png" alt="الشعار">
+                </div>
+                <h3 onclick="showDashboard()">العتبة العباسية</h3>
+                <p onclick="showDashboard()">قسم المشاريع الهندسية</p>
+                <p onclick="showDashboard()">شعبة صيانة مجموعة العميد</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <!-- زر الصفحة الرئيسية الجديد -->
+                <a href="#" class="nav-item" onclick="showDashboard()">
+                    <i class="fas fa-home"></i> <span>الرئيسية</span>
+                </a>
+                
+                <a href="#" class="nav-item" onclick="showSection('users')">
+                    <i class="fas fa-users-cog"></i> <span>إدارة المستخدمين</span>
+                </a>
+                <a href="#" class="nav-item" onclick="openReadingsModal()">
+                    <i class="fas fa-chart-line"></i> <span>القراءات</span>
+                </a>
+                <a href="#" class="nav-item" onclick="openCoolingModal()">
+                    <i class="fas fa-snowflake"></i> <span>التبريد المركزي</span>
+                </a>
+                
+                <!-- ========== وحدة الكهرباء ========== -->
+                <a href="#" class="nav-item" onclick="openElectricityModal()">
+                    <i class="fas fa-bolt"></i> <span>وحدة الكهرباء</span>
+                </a>
+                
+                <!-- ========== وحدة الميكانيك ========== -->
+                <a href="#" class="nav-item" onclick="openMechanicalModal()">
+                    <i class="fas fa-cogs"></i> <span>وحدة الميكانيك</span>
+                </a>
+                
+                <!-- ========== مخططات المجمع ========== -->
+                <a href="#" class="nav-item" onclick="openPlansModal()">
+                    <i class="fas fa-map"></i> <span>مخططات المجمع</span>
+                </a>
+                
+                <!-- ========== نافذة احتياط (Spare) جديدة ========== -->
+                <a href="#" class="nav-item" onclick="openSpareModal()">
+                    <i class="fas fa-box"></i> <span>احتياط (Spare)</span>
+                </a>
+                
+                <a href="https://wa.me/9647760055149" class="nav-item" target="_blank">
+                    <i class="fab fa-whatsapp"></i> <span>تواصل معنا</span>
+                </a>
+                <a href="#" class="nav-item" onclick="openMaintenanceModal()">
+                    <i class="fas fa-edit"></i> <span>تسجيل طلب</span>
+                </a>
+                <a href="#" class="nav-item" onclick="openDatabaseModal()">
+                    <i class="fas fa-table"></i> <span>قاعدة البيانات</span>
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> <span>الخروج</span>
+                </a>
+            </nav>
+
+            <div class="user-info">
+                <div id="userName">مستخدم</div>
+                <div id="userRole">صلاحية</div>
+                <p style="font-size: 0.8rem; opacity: 0.7;">وحدة الكهرباء والاتصالات</p>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Design by MURTADA AL_JANABY </p>
+            </div>
+        </div>
+
+        <!-- ========== المحتوى الرئيسي ========== -->
+        <div class="main-content">
+            <!-- قسم الرئيسية -->
+            <div id="dashboardSection">
+                <div class="header">
+                    <div class="welcome-section">
+                        <h1>مرحباً، <span id="greetingName">مستخدم</span> 👋</h1>
+                        <div class="department-info">برنامج الإسناد الهندسي</div>
+                    </div>
+
+                    <!-- إعلان رمضان -->
+                    <a href="#" class="pulsating-ad">
+                        <div class="icon-image" style="border-radius: 50%; width: 70px; height: 70px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                            <img src="https://i.ibb.co/Qv1zpt5N/0.png" alt="رمضان" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                        <div class="icon-title" style="color: #0c8006;">رمضان كريم</div>
+                    </a>
+
+                    <div class="header-actions">
+                        <div class="datetime-info">
+                            <div class="time" id="currentTime"></div>
+                            <div class="date" id="currentDate"></div>
+                        </div>
+
+                        <!-- أيقونة الدعم الاحترافية الجديدة -->
+                        <a href="https://wa.me/9647735559707" target="_blank" class="support-icon-wrapper" style="border: none; background: none; box-shadow: none;">
+                            <div class="support-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="support-text">الدعم</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- بطاقات الرئيسية - جميعها مرئية للجميع -->
+                <div class="dashboard-grid">
+                    <a href="https://wa.me/9647760055149" class="card" target="_blank">
+                        <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div class="card-title">تواصل معنا</div>
+                        <div class="card-description">الاتصال عبر واتساب للاستفسارات</div>
+                    </a>
+
+                    <div class="card" onclick="openMaintenanceModal()">
+                        <div class="card-icon"><i class="fas fa-edit"></i></div>
+                        <div class="card-title">تسجيل طلب صيانة</div>
+                        <div class="card-description">تسجيل طلبات الصيانة الجديدة</div>
+                    </div>
+
+                    <div class="card" onclick="openDatabaseModal()">
+                        <div class="card-icon"><i class="fas fa-table" style="background: #9b59b6;"></i></div>
+                        <div class="card-title">قاعدة البيانات</div>
+                        <div class="card-description">عرض وتعديل بيانات الطلبات</div>
+                    </div>
+
+                    <div class="card" onclick="openReadingsModal()">
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="card-title">قراءات الصيانة</div>
+                        <div class="card-description">التقارير والإحصائيات والقراءات</div>
+                    </div>
+
+                    <div class="card" onclick="openCoolingModal()">
+                        <div class="card-icon"><i class="fas fa-snowflake"></i></div>
+                        <div class="card-title">أنظمة التبريد المركزي</div>
+                        <div class="card-description">إدارة ومراقبة أنظمة التبريد</div>
+                    </div>
+
+                    <!-- ========== بطاقة وحدة الكهرباء ========== -->
+                    <div class="card" onclick="openElectricityModal()">
+                        <div class="card-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="card-title">وحدة الكهرباء</div>
+                        <div class="card-description">بيانات وحدة الكهرباء</div>
+                    </div>
+                    
+                    <!-- ========== بطاقة وحدة الميكانيك ========== -->
+                    <div class="card" onclick="openMechanicalModal()">
+                        <div class="card-icon"><i class="fas fa-cogs" style="background: #e67e22;"></i></div>
+                        <div class="card-title">وحدة الميكانيك</div>
+                        <div class="card-description">بيانات وأنظمة وحدة الميكانيك</div>
+                    </div>
+                    
+                    <!-- ========== بطاقة مخططات المجمع ========== -->
+                    <div class="card" onclick="openPlansModal()">
+                        <div class="card-icon"><i class="fas fa-map" style="background: #3498db;"></i></div>
+                        <div class="card-title">مخططات المجمع</div>
+                        <div class="card-description">مخططات وخرائط المجمع</div>
+                    </div>
+
+                    <!-- ========== بطاقة احتياط (Spare) جديدة ========== -->
+                    <div class="card" onclick="openSpareModal()">
+                        <div class="card-icon"><i class="fas fa-box" style="background: #95a5a6;"></i></div>
+                        <div class="card-title">احتياط (Spare)</div>
+                        <div class="card-description">نظام احتياطي للطوارئ</div>
+                    </div>
+
+                    <div class="card" onclick="showSection('users')">
+                        <div class="card-icon"><i class="fas fa-users-cog"></i></div>
+                        <div class="card-title">إدارة المستخدمين</div>
+                        <div class="card-description">إضافة وإدارة المستخدمين والصلاحيات</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم إدارة المستخدمين -->
+            <div id="usersSection" style="display: none;">
+                <div class="header">
+                    <div class="welcome-section">
+                        <h1>إدارة المستخدمين 👥</h1>
+                        <div class="department-info">إضافة وتعديل مستخدمي النظام</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="openAddUserModal()">
+                        <i class="fas fa-user-plus"></i> إضافة مستخدم
+                    </button>
+                </div>
+
+                <div class="users-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>اسم المستخدم</th>
+                                <th>كلمة المرور</th>
+                                <th>الصلاحيات</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== النوافذ المنبثقة ========== -->
+
+    <!-- نافذة القراءات -->
+    <div id="readingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">القراءات</h3>
+                <button class="close-btn" onclick="closeReadingsModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="readingsPassword" class="form-input" placeholder="رمز الدخول">
+            <div id="readingsError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeReadingsModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkReadingsPassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة التبريد المركزي (كلمة المرور) -->
+    <div id="coolingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">التبريد المركزي</h3>
+                <button class="close-btn" onclick="closeCoolingModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="coolingPassword" class="form-input" placeholder="رمز الدخول">
+            <div id="coolingError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="note-box">
+                ملاحظة: التبريد المركزي مربوط داخل شبكة المجمع. للدعم يرجى التواصل مع المختص.
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeCoolingModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkCoolingPassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة وحدة الكهرباء ========== -->
+    <div id="electricityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">وحدة الكهرباء</h3>
+                <button class="close-btn" onclick="closeElectricityModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="electricityPassword" class="form-input" placeholder="رمز الدخول">
+            <div id="electricityError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeElectricityModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkElectricityPassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة وحدة الميكانيك ========== -->
+    <div id="mechanicalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">وحدة الميكانيك</h3>
+                <button class="close-btn" onclick="closeMechanicalModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="mechanicalPassword" class="form-input" placeholder="رمز الدخول">
+            <div id="mechanicalError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeMechanicalModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkMechanicalPassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة مخططات المجمع ========== -->
+    <div id="plansModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">مخططات المجمع</h3>
+                <button class="close-btn" onclick="closePlansModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="plansPassword" class="form-input" placeholder="رمز الدخول">
+            <div id="plansError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closePlansModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkPlansPassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة تسجيل الطلب ========== -->
+    <div id="maintenanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">تسجيل طلب صيانة</h3>
+                <button class="close-btn" onclick="closeMaintenanceModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="maintenancePassword" class="form-input" placeholder="رمز الدخول">
+            <div id="maintenanceError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeMaintenanceModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkMaintenancePassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة قاعدة البيانات ========== -->
+    <div id="databaseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">قاعدة البيانات</h3>
+                <button class="close-btn" onclick="closeDatabaseModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="databasePassword" class="form-input" placeholder="رمز الدخول">
+            <div id="databaseError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeDatabaseModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkDatabasePassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة احتياط (Spare) جديدة ========== -->
+    <div id="spareModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">نظام احتياطي (Spare)</h3>
+                <button class="close-btn" onclick="closeSpareModal()">×</button>
+            </div>
+            <p>يرجى إدخال رمز الدخول:</p>
+            <input type="password" id="sparePassword" class="form-input" placeholder="رمز الدخول">
+            <div id="spareError" class="error-message">رمز الدخول غير صحيح!</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeSpareModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkSparePassword()">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة أنظمة التبريد (الواجهة الرئيسية) -->
+    <div id="coolingInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">أنظمة التبريد المركزي</h3>
+                <button class="close-btn" onclick="closeCoolingInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <!-- أنظمة التبريد - 17 نظام -->
+                <a href="http://10.15.16.230/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المركزي الثقافي (A-1)</div>
+                </a>
+                <a href="http://10.15.16.231/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المركز الثقافي</div>
+                </a>
+                <a href="http://10.15.16.232/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">روضة القمر</div>
+                </a>
+                <a href="http://10.15.16.233/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الأولى 1</div>
+                </a>
+                <a href="http://10.15.16.234/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الأولى 2</div>
+                </a>
+                <a href="http://10.15.16.235/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الثانية 1</div>
+                </a>
+                <a href="http://10.15.16.236/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الثانية 2</div>
+                </a>
+                <a href="http://10.15.16.237/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الثالثة 1</div>
+                </a>
+                <a href="http://10.15.16.238/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الثالثة 2</div>
+                </a>
+                <a href="http://10.15.16.239/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الرابعة 1</div>
+                </a>
+                <a href="http://10.15.16.240/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الرابعة 2</div>
+                </a>
+                <a href="http://10.15.16.241/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">روضة القمر</div>
+                </a>
+                <a href="http://10.15.16.246/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الخامسة 1</div>
+                </a>
+                <a href="http://10.15.16.248/control/index.html" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المدرسة الخامسة 2</div>
+                </a>
+                <a href="http://10.15.16.244/" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/ymPT39qJ/daikin-logo.png" alt=""></div>
+                    <div class="icon-title">المدرسة السادسة</div>
+                </a>
+                <a href="http://10.15.16.245/" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/ymPT39qJ/daikin-logo.png" alt=""></div>
+                    <div class="icon-title">المدرسة السابعة</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/gLKvsrby/warth-logo.jpg" alt=""></div>
+                    <div class="icon-title">المختبرات</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeCoolingInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة وحدة الكهرباء (الواجهة الرئيسية) - نظيفة من السيرفر ========== -->
+    <div id="electricityInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-bolt" style="margin-left: 10px;"></i>
+                    وحدة الكهرباء - نظام التحكم
+                </h3>
+                <button class="close-btn" onclick="closeElectricityInterface()">×</button>
+            </div>
+            
+            <!-- يمكنك إضافة محتوى وحدة الكهرباء هنا لاحقاً -->
+            <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
+                <i class="fas fa-bolt" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h4>قسم وحدة الكهرباء</h4>
+                <p>سيتم إضافة محتوى وحدة الكهرباء قريباً</p>
+            </div>
+
+            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="closeElectricityInterface()">
+                    <i class="fas fa-arrow-right"></i>
+                    رجوع
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة وحدة الميكانيك (الواجهة الرئيسية) ========== -->
+    <div id="mechanicalInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">وحدة الميكانيك</h3>
+                <button class="close-btn" onclick="closeMechanicalInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <!-- محتوى وحدة الميكانيك -->
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مضخات المياه</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">أنظمة التهوية</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المصاعد</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">أنظمة الضغط</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeMechanicalInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة مخططات المجمع (الواجهة الرئيسية) ========== -->
+    <div id="plansInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">مخططات المجمع</h3>
+                <button class="close-btn" onclick="closePlansInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <!-- محتوى مخططات المجمع -->
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المخطط العام</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مخططات الكهرباء</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مخططات التبريد</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مخططات المياه</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">خرائط الطوابق</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closePlansInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة تسجيل الطلب (الواجهة الرئيسية) ========== -->
+    <div id="maintenanceInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">تسجيل طلب صيانة</h3>
+                <button class="close-btn" onclick="closeMaintenanceInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeJbIjmvgbEWOzTUADOM3XrpOT6da1i1aAoSifhIaVm-voDw/viewform" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نموذج تسجيل طلب</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeMaintenanceInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة قاعدة البيانات (الواجهة الرئيسية) ========== -->
+    <div id="databaseInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">قاعدة البيانات</h3>
+                <button class="close-btn" onclick="closeDatabaseInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <a href="https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">جدول البيانات</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeDatabaseInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة احتياط (Spare) الواجهة الرئيسية ========== -->
+    <div id="spareInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">النظام الاحتياطي (Spare)</h3>
+                <button class="close-btn" onclick="closeSpareInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 1</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 2</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 3</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 4</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeSpareInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة مستخدم -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">إضافة مستخدم جديد</h3>
+                <button class="close-btn" onclick="closeAddUserModal()">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">اسم المستخدم</label>
+                <input type="text" id="newUsername" class="form-input" placeholder="أدخل اسم المستخدم">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" id="newPassword" class="form-input" placeholder="أدخل كلمة المرور">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">تأكيد كلمة المرور</label>
+                <input type="password" id="confirmPassword" class="form-input" placeholder="أعد إدخال كلمة المرور">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">الصلاحيات</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permReadings" value="readings"> <span>القراءات</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permCooling" value="cooling"> <span>التبريد المركزي</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permElectricity" value="electricity"> <span>وحدة الكهرباء</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permMechanical" value="mechanical"> <span>وحدة الميكانيك</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permPlans" value="plans"> <span>مخططات المجمع</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permMaintenance" value="maintenance"> <span>تسجيل طلب</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permDatabase" value="database"> <span>قاعدة البيانات</span>
+                    </label>
+                    <!-- ========== صلاحية احتياط (Spare) جديدة ========== -->
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permSpare" value="spare"> <span>احتياط (Spare)</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="permUsers" value="users"> <span>إدارة المستخدمين</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeAddUserModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="addNewUser()">إضافة مستخدم</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نظام JavaScript الموحد ========== -->
+    <script>
+        // ========== بيانات المستخدمين والصلاحيات (مع إضافة صلاحية spare) ==========
+        const users = {
+            "admin": { 
+                password: "78672062", 
+                name: "مدير النظام", 
+                permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare"] 
+            },
+            "m": { 
+                password: "m", 
+                name: "وحدة التبريد", 
+                permissions: ["readings", "cooling"] 
+            },
+            "2001": { 
+                password: "", 
+                name: "ابو الروض", 
+                permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare"] 
+            },
+            "رضا": { 
+                password: "رضا", 
+                name: "مهندس رضا", 
+                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare"] 
+            }
+        };
+
+        // رموز الدخول للنوافذ
+        const READINGS_PASSWORD = "1";
+        const COOLING_PASSWORD = "1";
+        const ELECTRICITY_PASSWORDS = ["1", "2", "3", "صين", "قاعة", "كهرباء"];
+        const MECHANICAL_PASSWORD = "1";
+        const PLANS_PASSWORD = "1";
+        const MAINTENANCE_PASSWORD = "1";
+        const DATABASE_PASSWORD = "1";
+        const SPARE_PASSWORD = "1";
+
+        let currentUser = null;
+
+        // ========== دالة عرض رسالة المنع المحسنة ==========
+        function showPermissionDenied(windowName) {
+            // إزالة أي رسالة سابقة
+            const existingToast = document.querySelector('.permission-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // إنشاء رسالة جديدة
+            const toast = document.createElement('div');
+            toast.className = 'permission-toast';
+            toast.innerHTML = `
+                <i class="fas fa-ban"></i>
+                <span>عذراً، ليس لديك صلاحية للوصول إلى "${windowName}"</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // إزالة الرسالة بعد 5 ثواني
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+
+        // ========== دوال النظام الأساسية ==========
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (users[username] && users[username].password === password) {
+                currentUser = { username: username, ...users[username] };
+                
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'block';
+                
+                updateUserInterface();
+                errorDiv.style.display = 'none';
+            } else {
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function updateUserInterface() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('greetingName').textContent = currentUser.name;
+            document.getElementById('userRole').textContent = currentUser.username === 'admin' ? 'مدير النظام' : 'مستخدم';
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showDashboard() {
+            // إخفاء جميع الأقسام أولاً
+            document.querySelectorAll('.main-content > div').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // إظهار قسم الرئيسية
+            document.getElementById('dashboardSection').style.display = 'block';
+            
+            // تحديث الحالة النشطة في القائمة
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        function showSection(sectionName) {
+            // إخفاء جميع الأقسام أولاً
+            document.querySelectorAll('.main-content > div').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            if (sectionName === 'users') {
+                // التحقق من صلاحية إدارة المستخدمين عند محاولة الدخول
+                if (!currentUser?.permissions.includes('users')) {
+                    showPermissionDenied('إدارة المستخدمين');
+                    document.getElementById('dashboardSection').style.display = 'block';
+                    return;
+                }
+                document.getElementById('usersSection').style.display = 'block';
+                loadUsersTable();
+            }
+            
+            // تحديث الحالة النشطة في القائمة
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeNav = Array.from(document.querySelectorAll('.nav-item')).find(
+                item => item.getAttribute('onclick')?.includes(sectionName)
+            );
+            if (activeNav) activeNav.classList.add('active');
+        }
+
+        // ========== الوقت والتاريخ ==========
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('ar-EG', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-EG', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // ========== إدارة المستخدمين ==========
+        function loadUsersTable() {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+            
+            for (const [username, user] of Object.entries(users)) {
+                const tr = document.createElement('tr');
+                const passwordDisplay = currentUser?.username === 'admin' ? 
+                    `<span class="password-field">${user.password}</span>` : '••••••';
+                
+                tr.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${passwordDisplay}</td>
+                    <td>${user.permissions.join('، ')}</td>
+                    <td class="action-buttons">
+                        ${currentUser?.username === 'admin' ? `
+                            <button class="btn btn-sm btn-secondary" onclick="editUser('${username}')"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser('${username}')"><i class="fas fa-trash"></i></button>
+                        ` : ''}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        function openAddUserModal() {
+            // التحقق من صلاحية إدارة المستخدمين
+            if (!currentUser?.permissions.includes('users')) {
+                showPermissionDenied('إضافة مستخدم');
+                return;
+            }
+            document.getElementById('addUserModal').style.display = 'flex';
+        }
+
+        function closeAddUserModal() {
+            document.getElementById('addUserModal').style.display = 'none';
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            document.querySelectorAll('#addUserModal input[type="checkbox"]').forEach(cb => cb.checked = false);
+        }
+
+        function addNewUser() {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!username || !password) { alert('يرجى ملء جميع الحقول'); return; }
+            if (password !== confirmPassword) { alert('كلمات المرور غير متطابقة'); return; }
+            if (users[username]) { alert('اسم المستخدم موجود مسبقاً'); return; }
+            
+            const permissions = [];
+            if (document.getElementById('permReadings').checked) permissions.push('readings');
+            if (document.getElementById('permCooling').checked) permissions.push('cooling');
+            if (document.getElementById('permElectricity').checked) permissions.push('electricity');
+            if (document.getElementById('permMechanical').checked) permissions.push('mechanical');
+            if (document.getElementById('permPlans').checked) permissions.push('plans');
+            if (document.getElementById('permMaintenance').checked) permissions.push('maintenance');
+            if (document.getElementById('permDatabase').checked) permissions.push('database');
+            if (document.getElementById('permSpare').checked) permissions.push('spare');
+            if (document.getElementById('permUsers').checked) permissions.push('users');
+            
+            users[username] = { password: password, name: username, permissions: permissions };
+            
+            alert('تم إضافة المستخدم بنجاح');
+            closeAddUserModal();
+            loadUsersTable();
+        }
+
+        function editUser(username) { 
+            // التحقق من صلاحية إدارة المستخدمين
+            if (!currentUser?.permissions.includes('users')) {
+                showPermissionDenied('تعديل المستخدمين');
+                return;
+            }
+            alert(`سيتم تعديل المستخدم: ${username}`); 
+        }
+
+        function deleteUser(username) {
+            // التحقق من صلاحية إدارة المستخدمين
+            if (!currentUser?.permissions.includes('users')) {
+                showPermissionDenied('حذف المستخدمين');
+                return;
+            }
+            if (username === 'admin') { alert('لا يمكن حذف المدير العام'); return; }
+            if (confirm(`هل أنت متأكد من حذف المستخدم "${username}"؟`)) {
+                delete users[username];
+                loadUsersTable();
+                alert('تم حذف المستخدم بنجاح');
+            }
+        }
+
+        // ========== دوال القراءات (تم إلغاء كلمة المرور) ==========
+        function openReadingsModal() {
+            if (!currentUser?.permissions.includes('readings')) {
+                showPermissionDenied('القراءات');
+                return;
+            }
+            // فتح الرابط مباشرة بدون نافذة كلمة المرور
+            window.open('https://docs.google.com/spreadsheets/d/1hj4vc0WUNASJOAJQ1rZkdgCT8SeHhoYDR20QFtk5GFY/edit?gid=2017102556#gid=2017102556', '_blank');
+        }
+
+        function closeReadingsModal() {
+            document.getElementById('readingsModal').style.display = 'none';
+            document.getElementById('readingsError').style.display = 'none';
+            document.getElementById('readingsPassword').value = '';
+        }
+
+        function checkReadingsPassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeReadingsModal();
+        }
+
+        // ========== دوال التبريد المركزي (تم إلغاء كلمة المرور) ==========
+        function openCoolingModal() {
+            if (!currentUser?.permissions.includes('cooling')) {
+                showPermissionDenied('أنظمة التبريد المركزي');
+                return;
+            }
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('coolingInterface').style.display = 'flex';
+        }
+
+        function closeCoolingModal() {
+            document.getElementById('coolingModal').style.display = 'none';
+            document.getElementById('coolingError').style.display = 'none';
+            document.getElementById('coolingPassword').value = '';
+        }
+
+        function checkCoolingPassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeCoolingModal();
+        }
+
+        function closeCoolingInterface() {
+            document.getElementById('coolingInterface').style.display = 'none';
+        }
+
+        // ========== دوال وحدة الكهرباء (تبقى محمية بكلمة المرور) ==========
+        function openElectricityModal() {
+            if (!currentUser?.permissions.includes('electricity')) {
+                showPermissionDenied('وحدة الكهرباء');
+                return;
+            }
+            document.getElementById('electricityModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('electricityPassword').focus(), 100);
+        }
+
+        function closeElectricityModal() {
+            document.getElementById('electricityModal').style.display = 'none';
+            document.getElementById('electricityError').style.display = 'none';
+            document.getElementById('electricityPassword').value = '';
+        }
+
+        function checkElectricityPassword() {
+            const enteredPassword = document.getElementById('electricityPassword').value;
+            if (ELECTRICITY_PASSWORDS.includes(enteredPassword)) {
+                document.getElementById('electricityModal').style.display = 'none';
+                document.getElementById('electricityInterface').style.display = 'flex';
+                document.getElementById('electricityError').style.display = 'none';
+                document.getElementById('electricityPassword').value = '';
+            } else {
+                document.getElementById('electricityError').style.display = 'block';
+            }
+        }
+
+        function closeElectricityInterface() {
+            document.getElementById('electricityInterface').style.display = 'none';
+        }
+
+        // ========== دوال وحدة الميكانيك (تم إلغاء كلمة المرور) ==========
+        function openMechanicalModal() {
+            if (!currentUser?.permissions.includes('mechanical')) {
+                showPermissionDenied('وحدة الميكانيك');
+                return;
+            }
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('mechanicalInterface').style.display = 'flex';
+        }
+
+        function closeMechanicalModal() {
+            document.getElementById('mechanicalModal').style.display = 'none';
+            document.getElementById('mechanicalError').style.display = 'none';
+            document.getElementById('mechanicalPassword').value = '';
+        }
+
+        function checkMechanicalPassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeMechanicalModal();
+        }
+
+        function closeMechanicalInterface() {
+            document.getElementById('mechanicalInterface').style.display = 'none';
+        }
+
+        // ========== دوال مخططات المجمع (تم إلغاء كلمة المرور) ==========
+        function openPlansModal() {
+            if (!currentUser?.permissions.includes('plans')) {
+                showPermissionDenied('مخططات المجمع');
+                return;
+            }
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('plansInterface').style.display = 'flex';
+        }
+
+        function closePlansModal() {
+            document.getElementById('plansModal').style.display = 'none';
+            document.getElementById('plansError').style.display = 'none';
+            document.getElementById('plansPassword').value = '';
+        }
+
+        function checkPlansPassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closePlansModal();
+        }
+
+        function closePlansInterface() {
+            document.getElementById('plansInterface').style.display = 'none';
+        }
+
+        // ========== دوال تسجيل الطلب (تم إلغاء كلمة المرور - تفتح الرابط مباشرة) ==========
+        function openMaintenanceModal() {
+            if (!currentUser?.permissions.includes('maintenance')) {
+                showPermissionDenied('تسجيل طلب');
+                return;
+            }
+            // فتح الرابط مباشرة بدون نافذة كلمة المرور
+            window.open('https://docs.google.com/forms/d/e/1FAIpQLSfeJbIjmvgbEWOzTUADOM3XrpOT6da1i1aAoSifhIaVm-voDw/viewform', '_blank');
+        }
+
+        function closeMaintenanceModal() {
+            document.getElementById('maintenanceModal').style.display = 'none';
+            document.getElementById('maintenanceError').style.display = 'none';
+            document.getElementById('maintenancePassword').value = '';
+        }
+
+        function checkMaintenancePassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeMaintenanceModal();
+        }
+
+        function closeMaintenanceInterface() {
+            document.getElementById('maintenanceInterface').style.display = 'none';
+        }
+
+        // ========== دوال قاعدة البيانات (تم إلغاء كلمة المرور - تفتح الرابط مباشرة) ==========
+        function openDatabaseModal() {
+            if (!currentUser?.permissions.includes('database')) {
+                showPermissionDenied('قاعدة البيانات');
+                return;
+            }
+            // فتح الرابط مباشرة بدون نافذة كلمة المرور
+            window.open('https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit', '_blank');
+        }
+
+        function closeDatabaseModal() {
+            document.getElementById('databaseModal').style.display = 'none';
+            document.getElementById('databaseError').style.display = 'none';
+            document.getElementById('databasePassword').value = '';
+        }
+
+        function checkDatabasePassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeDatabaseModal();
+        }
+
+        function closeDatabaseInterface() {
+            document.getElementById('databaseInterface').style.display = 'none';
+        }
+
+        // ========== دوال احتياط (Spare) - تم إلغاء كلمة المرور ==========
+        function openSpareModal() {
+            if (!currentUser?.permissions.includes('spare')) {
+                showPermissionDenied('النظام الاحتياطي');
+                return;
+            }
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('spareInterface').style.display = 'flex';
+        }
+
+        function closeSpareModal() {
+            document.getElementById('spareModal').style.display = 'none';
+            document.getElementById('spareError').style.display = 'none';
+            document.getElementById('sparePassword').value = '';
+        }
+
+        function checkSparePassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeSpareModal();
+        }
+
+        function closeSpareInterface() {
+            document.getElementById('spareInterface').style.display = 'none';
+        }
+
+        // ========== إغلاق النوافذ عند النقر خارجها ==========
+        window.onclick = function(event) {
+            const modals = {
+                'readingsModal': closeReadingsModal,
+                'coolingModal': closeCoolingModal,
+                'coolingInterface': closeCoolingInterface,
+                'electricityModal': closeElectricityModal,
+                'electricityInterface': closeElectricityInterface,
+                'mechanicalModal': closeMechanicalModal,
+                'mechanicalInterface': closeMechanicalInterface,
+                'plansModal': closePlansModal,
+                'plansInterface': closePlansInterface,
+                'maintenanceModal': closeMaintenanceModal,
+                'maintenanceInterface': closeMaintenanceInterface,
+                'databaseModal': closeDatabaseModal,
+                'databaseInterface': closeDatabaseInterface,
+                'spareModal': closeSpareModal,
+                'spareInterface': closeSpareInterface,
+                'addUserModal': closeAddUserModal
+            };
+            
+            for (const [modalId, closeFunc] of Object.entries(modals)) {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    closeFunc();
+                }
+            }
+        }
+
+        // ========== جعل المؤشر يذهب تلقائياً إلى حقل اسم المستخدم ==========
+        window.onload = function() {
+            document.getElementById('loginUsername').focus();
+        };
+
+        // ========== التشغيل الأولي ==========
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
 </body>
 </html>
