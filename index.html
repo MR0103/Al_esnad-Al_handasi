@@ -2103,52 +2103,56 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
-
-function loadElectricFiles() {
+// دالة ذكية موحدة لجلب الملفات من أي مجلد على GitHub
+function loadFolderFiles(folderName) {
     const filesList = document.getElementById('filesList');
     
-    // إظهار رسالة تحميل
-    filesList.innerHTML = '<div style="text-align:center; width:100%;"><i class="fas fa-spinner fa-spin"></i> جاري تحديث قائمة المستندات...</div>';
+    // إظهار رسالة تحميل متحركة
+    filesList.innerHTML = `
+        <div style="text-align:center; width:100%; padding: 20px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #1a5e1a;"></i>
+            <p style="margin-top:10px;">جاري جلب ملفات ${folderName}...</p>
+        </div>`;
 
-    // نطلب من السيرفر المحلي (Node.js) جلب القائمة الجديدة
-    fetch('http://localhost:3000/list-files') 
-        .then(response => response.json())
+    const username = "mr0103";
+    const repo = "Al_esnad-Al_handasi";
+    
+    // رابط API الخاص بـ GitHub لجلب محتويات المجلد تلقائياً
+    const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folderName}`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) throw new Error('تعذر الوصول للمجلد');
+            return response.json();
+        })
         .then(files => {
             filesList.innerHTML = ''; 
 
-            if (files.length === 0) {
+            if (!Array.isArray(files) || files.length === 0) {
                 filesList.innerHTML = '<p style="text-align:center; width:100%;">المجلد فارغ حالياً.</p>';
                 return;
             }
 
             files.forEach(file => {
-                let iconClass = 'fa-file'; // الأيقونة الافتراضية
-                let iconColor = '#95a5a6'; // اللون الرمادي الافتراضي
-                
-                // تحويل اسم الملف لحروف صغيرة لفحص الامتداد بدقة
-                const fileNameLower = file.toLowerCase();
+                let iconClass = 'fa-file';
+                let iconColor = '#95a5a6';
+                const extension = file.name.split('.').pop().toLowerCase();
 
-                if (fileNameLower.endsWith('.pdf')) {
-                    iconClass = 'fa-file-pdf';
-                    iconColor = '#e74c3c'; // أحمر للـ PDF
-                } 
-                else if (fileNameLower.match(/\.(jpg|jpeg|png|gif)$/i)) {
-                    iconClass = 'fa-file-image';
-                    iconColor = '#3498db'; // أزرق للصور
-                }
-                // دعم ملفات الوورد (Word)
-                else if (fileNameLower.endsWith('.doc') || fileNameLower.endsWith('.docx')) {
-                    iconClass = 'fa-file-word';
-                    iconColor = '#2b579a'; // أزرق داكن للوورد
-                }
-                // دعم ملفات الإكسل (Excel)
-                else if (fileNameLower.endsWith('.xls') || fileNameLower.endsWith('.xlsx') || fileNameLower.endsWith('.csv')) {
-                    iconClass = 'fa-file-excel';
-                    iconColor = '#217346'; // أخضر للإكسل
+                // تحديد الأيقونة واللون بناءً على نوع الملف
+                switch (extension) {
+                    case 'pdf': iconClass = 'fa-file-pdf'; iconColor = '#e74c3c'; break;
+                    case 'doc':
+                    case 'docx': iconClass = 'fa-file-word'; iconColor = '#2b579a'; break;
+                    case 'xls':
+                    case 'xlsx': iconClass = 'fa-file-excel'; iconColor = '#217346'; break;
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png': iconClass = 'fa-file-image'; iconColor = '#3498db'; break;
                 }
 
                 const item = document.createElement('a');
-                item.href = `./electric_unit/${file}`;
+                // رابط التحميل المباشر من GitHub Pages
+                item.href = `https://${username}.github.io/${repo}/${folderName}/${file.name}`;
                 item.target = '_blank';
                 item.className = 'icon-item';
                 item.innerHTML = `
@@ -2156,7 +2160,7 @@ function loadElectricFiles() {
                         <i class="fas ${iconClass}" style="font-size: 3rem; color: ${iconColor};"></i>
                     </div>
                     <div class="icon-title" style="font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                        ${file}
+                        ${file.name}
                     </div>
                 `;
                 filesList.appendChild(item);
@@ -2164,7 +2168,7 @@ function loadElectricFiles() {
         })
         .catch(error => {
             console.error('Error:', error);
-            filesList.innerHTML = '<p style="text-align:center; width:100%; color:red;">تأكد من تشغيل ملف server.js في الخلفية.</p>';
+            filesList.innerHTML = '<p style="text-align:center; width:100%; color:red;">خطأ في الاتصال بالسيرفر. تأكد من وجود المجلد في GitHub.</p>';
         });
 }
 // دالة التحقق من كلمة المرور (النسخة النهائية)
