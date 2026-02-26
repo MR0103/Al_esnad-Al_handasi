@@ -2103,33 +2103,48 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
-// دالة لجلب الملفات من السيرفر وعرضها
+
 function loadElectricFiles() {
     const filesList = document.getElementById('filesList');
     
     // إظهار رسالة تحميل
-    filesList.innerHTML = '<div style="text-align:center; width:100%;"><i class="fas fa-spinner fa-spin"></i> جاري جلب الملفات...</div>';
+    filesList.innerHTML = '<div style="text-align:center; width:100%;"><i class="fas fa-spinner fa-spin"></i> جاري تحديث قائمة المستندات...</div>';
 
-    fetch('get_files.php')
+    // نطلب من السيرفر المحلي (Node.js) جلب القائمة الجديدة
+    fetch('http://localhost:3000/list-files') 
         .then(response => response.json())
         .then(files => {
             filesList.innerHTML = ''; 
 
             if (files.length === 0) {
-                filesList.innerHTML = '<p style="text-align:center; width:100%;">لا توجد ملفات في المجلد حالياً.</p>';
+                filesList.innerHTML = '<p style="text-align:center; width:100%;">المجلد فارغ حالياً.</p>';
                 return;
             }
 
             files.forEach(file => {
-                let iconClass = 'fa-file';
-                let iconColor = '#95a5a6';
+                let iconClass = 'fa-file'; // الأيقونة الافتراضية
+                let iconColor = '#95a5a6'; // اللون الرمادي الافتراضي
                 
-                if (file.endsWith('.pdf')) {
+                // تحويل اسم الملف لحروف صغيرة لفحص الامتداد بدقة
+                const fileNameLower = file.toLowerCase();
+
+                if (fileNameLower.endsWith('.pdf')) {
                     iconClass = 'fa-file-pdf';
-                    iconColor = '#e74c3c';
-                } else if (file.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                    iconColor = '#e74c3c'; // أحمر للـ PDF
+                } 
+                else if (fileNameLower.match(/\.(jpg|jpeg|png|gif)$/i)) {
                     iconClass = 'fa-file-image';
-                    iconColor = '#3498db';
+                    iconColor = '#3498db'; // أزرق للصور
+                }
+                // دعم ملفات الوورد (Word)
+                else if (fileNameLower.endsWith('.doc') || fileNameLower.endsWith('.docx')) {
+                    iconClass = 'fa-file-word';
+                    iconColor = '#2b579a'; // أزرق داكن للوورد
+                }
+                // دعم ملفات الإكسل (Excel)
+                else if (fileNameLower.endsWith('.xls') || fileNameLower.endsWith('.xlsx') || fileNameLower.endsWith('.csv')) {
+                    iconClass = 'fa-file-excel';
+                    iconColor = '#217346'; // أخضر للإكسل
                 }
 
                 const item = document.createElement('a');
@@ -2149,10 +2164,9 @@ function loadElectricFiles() {
         })
         .catch(error => {
             console.error('Error:', error);
-            filesList.innerHTML = '<p style="text-align:center; width:100%; color:red;">حدث خطأ في الاتصال بالسيرفر.</p>';
+            filesList.innerHTML = '<p style="text-align:center; width:100%; color:red;">تأكد من تشغيل ملف server.js في الخلفية.</p>';
         });
 }
-
 // دالة التحقق من كلمة المرور (النسخة النهائية)
 function checkElectricityPassword() {
     const enteredPassword = document.getElementById('electricityPassword').value;
