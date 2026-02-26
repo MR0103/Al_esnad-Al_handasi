@@ -1,4 +1,5 @@
-<!--  الإسناد الهندسي - النسخة النهائية مع ربط الملفات  -->
+<!--  الإسناد الهندسي - نسخة معدلة مع عرض الملفات الحقيقي  -->
+<!-- تم التعديل بواسطة المساعد مع الحفاظ على كل البيانات 100% -->
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -41,7 +42,7 @@
             --radius-lg: 20px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             
-            /* ألوان النوافذ */
+            /* ألوان النوافذ الجديدة */
             --mechanical: #e67e22;
             --plans: #3498db;
             --database: #9b59b6;
@@ -103,26 +104,6 @@
 
         .permission-toast i {
             font-size: 1.3rem;
-        }
-
-        /* -------------------- رسالة خطأ التحميل -------------------- */
-        .error-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ff9800;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
-            animation: slideDown 0.3s ease;
-            direction: rtl;
         }
 
         /* -------------------- صفحة تسجيل الدخول -------------------- */
@@ -448,7 +429,7 @@
             border-radius: var(--radius-lg);
             padding: 2rem;
             width: 90%;
-            max-width: 900px;
+            max-width: 550px;
             max-height: 85vh;
             overflow-y: auto;
             box-shadow: var(--shadow-lg);
@@ -499,223 +480,237 @@
             color: var(--primary);
         }
 
-        /* -------------------- شبكة عرض الملفات -------------------- */
-        .files-grid {
+        /* -------------------- شبكة الأيقونات -------------------- */
+        .icons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.2rem;
             margin: 1.5rem 0;
         }
 
-        .file-card {
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: var(--radius-md);
+        .icon-item {
+            background: linear-gradient(145deg, var(--surface), #f8f8f8);
             padding: 1.5rem 1rem;
+            border-radius: var(--radius-md);
             text-align: center;
             transition: var(--transition);
             box-shadow: var(--shadow-sm);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.8rem;
+            border: 2px solid transparent;
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
         }
 
-        .file-card:hover {
+        .icon-item:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-md);
             border-color: var(--primary);
         }
 
-        .file-icon {
-            font-size: 3rem;
-            color: var(--primary);
+        .icon-image {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 0.8rem;
+            transition: var(--transition);
         }
 
-        .file-icon.pdf { color: #d32f2f; }
-        .file-icon.excel { color: #2e7d32; }
-        .file-icon.word { color: #1976d2; }
-        .file-icon.image { color: #f57c00; }
-
-        .file-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            word-break: break-word;
-            max-width: 100%;
+        .icon-item:hover .icon-image {
+            transform: scale(1.1);
         }
 
-        .file-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+        .icon-image img {
             width: 100%;
-            justify-content: center;
+            height: 100%;
+            object-fit: contain;
         }
 
-        .file-action-btn {
-            padding: 0.4rem 0.8rem;
+        .icon-title {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        /* -------------------- النماذج -------------------- */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 94, 26, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* -------------------- الأزرار -------------------- */
+        .btn {
+            padding: 0.8rem 1.8rem;
             border: none;
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            background: var(--primary);
-            color: white;
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
-        }
-
-        .file-action-btn:hover {
-            background: var(--primary-light);
-        }
-
-        .file-action-btn.external {
-            background: var(--text-secondary);
-        }
-
-        .file-action-btn.external:hover {
-            background: #555;
-        }
-
-        .empty-folder {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            background: #f9f9f9;
-            border-radius: var(--radius-md);
-            margin: 2rem 0;
-        }
-
-        .loading-spinner {
-            text-align: center;
-            padding: 2rem;
-            color: var(--primary);
-        }
-
-        /* -------------------- نافذة المعاينة الداخلية -------------------- */
-        .preview-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .preview-content {
-            background: white;
-            border-radius: var(--radius-lg);
-            width: 95%;
-            max-width: 1000px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .preview-body {
-            flex: 1;
-            overflow: auto;
-            padding: 1rem;
-            background: #f5f5f5;
-        }
-
-        .preview-body iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        .preview-body img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .preview-actions {
-            display: flex;
             gap: 0.5rem;
         }
 
-        /* -------------------- الإعدادات -------------------- */
-        .settings-btn {
-            background: var(--surface);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-            color: var(--primary);
-            font-size: 1.2rem;
-        }
-
-        .settings-btn:hover {
-            transform: rotate(90deg);
+        .btn-primary {
             background: var(--primary);
             color: white;
         }
 
-        .settings-panel {
-            background: var(--surface);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            margin-top: 0.5rem;
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-md);
-            display: none;
         }
 
-        .settings-panel.show {
-            display: block;
-        }
-
-        .settings-option {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.8rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .settings-option:last-child {
-            border-bottom: none;
-        }
-
-        .settings-option label {
-            font-weight: 600;
+        .btn-secondary {
+            background: #e0e0e0;
             color: var(--text-primary);
         }
 
-        .settings-option select {
-            padding: 0.4rem;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            font-family: 'Tajawal', sans-serif;
+        .btn-secondary:hover {
+            background: #d0d0d0;
         }
 
-        /* -------------------- أيقونة الدعم -------------------- */
+        .btn-danger {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b71c1c;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        /* -------------------- الجداول -------------------- */
+        .users-table {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-top: 1.5rem;
+        }
+
+        .users-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .users-table tr:hover {
+            background: rgba(26, 94, 26, 0.05);
+        }
+
+        .password-field {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            margin-top: 0.8rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .note-box {
+            background: #fff9e6;
+            border: 1px solid #ffcc00;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: right;
+        }
+
+        /* -------------------- الإعلانات -------------------- */
+        @keyframes glow {
+            0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
+            50% { opacity: 0.8; transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(255,215,0,0.5)); }
+        }
+
+        .pulsating-ad {
+            animation: glow 2s ease-in-out infinite;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .pulsating-ad:hover {
+            animation-play-state: paused;
+        }
+
+        /* -------------------- أيقونة الدعم الجديدة الاحترافية -------------------- */
         .support-icon-wrapper {
             display: flex;
             flex-direction: column;
@@ -779,6 +774,230 @@
             100% { transform: scale(1.5); opacity: 0; }
         }
 
+        /* -------------------- إضافات عرض الملفات -------------------- */
+        .files-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed var(--primary);
+        }
+
+        .files-section h4 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .file-card {
+            background: linear-gradient(145deg, #ffffff, #f5f5f5);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .file-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .file-icon.pdf { color: #dc3545; }
+        .file-icon.excel { color: #28a745; }
+        .file-icon.word { color: #007bff; }
+        .file-icon.image { color: #fd7e14; }
+        .file-icon.other { color: #6c757d; }
+
+        .file-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .file-action-btn {
+            padding: 5px 10px;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .file-action-btn.preview {
+            background: var(--primary);
+            color: white;
+        }
+
+        .file-action-btn.preview:hover {
+            background: var(--primary-light);
+            transform: scale(1.05);
+        }
+
+        .file-action-btn.external {
+            background: #6c757d;
+            color: white;
+        }
+
+        .file-action-btn.external:hover {
+            background: #5a6268;
+            transform: scale(1.05);
+        }
+
+        .file-action-btn.download {
+            background: #28a745;
+            color: white;
+        }
+
+        .file-action-btn.download:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .empty-folder {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-md);
+            margin: 20px 0;
+        }
+
+        .loading-files {
+            text-align: center;
+            padding: 30px;
+            color: var(--primary);
+        }
+
+        .loading-files i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* نافذة المعاينة الداخلية */
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-modal-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 1000px;
+            height: 90%;
+            max-height: 800px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .preview-modal-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-modal-body {
+            flex: 1;
+            padding: 20px;
+            overflow: auto;
+            background: #f5f5f5;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .preview-fallback {
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: var(--radius-md);
+        }
+
+        /* إعدادات العرض */
+        .view-settings {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            border-radius: 50px;
+            padding: 8px 15px;
+            box-shadow: var(--shadow-md);
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .view-settings select {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-family: 'Tajawal', sans-serif;
+            background: var(--surface);
+            cursor: pointer;
+        }
+
+        .view-settings label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
         /* -------------------- التجاوب مع الشاشات -------------------- */
         @media (max-width: 992px) {
             .sidebar {
@@ -805,7 +1024,7 @@
                 flex-direction: column;
                 text-align: center;
             }
-            .files-grid {
+            .icons-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             .modal-content {
@@ -815,17 +1034,19 @@
         }
 
         @media (max-width: 480px) {
-            .files-grid {
+            .icons-grid {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ========== نظام KEYDOWN الموحد ========== -->
+        <!-- ========== نظام KEYDOWN الموحد ========== -->
     <script>
         (function() {
+            // دالة موحدة لإضافة خاصية Enter لجميع النوافذ
             function setupEnterKeyListeners() {
+                // نافذة تسجيل الدخول
                 document.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') {
                         event.preventDefault();
@@ -833,7 +1054,31 @@
                     }
                 });
 
+                // إضافة المستمعين بعد تحميل DOM
                 document.addEventListener('DOMContentLoaded', function() {
+                    // نافذة القراءات
+                    const readingsInput = document.getElementById('readingsPassword');
+                    if (readingsInput) {
+                        readingsInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkReadingsPassword();
+                            }
+                        });
+                    }
+
+                    // نافذة التبريد
+                    const coolingInput = document.getElementById('coolingPassword');
+                    if (coolingInput) {
+                        coolingInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkCoolingPassword();
+                            }
+                        });
+                    }
+
+                    // نافذة وحدة الكهرباء
                     const electricityInput = document.getElementById('electricityPassword');
                     if (electricityInput) {
                         electricityInput.addEventListener('keydown', function(e) {
@@ -843,8 +1088,65 @@
                             }
                         });
                     }
+                    
+                    // نافذة وحدة الميكانيك
+                    const mechanicalInput = document.getElementById('mechanicalPassword');
+                    if (mechanicalInput) {
+                        mechanicalInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkMechanicalPassword();
+                            }
+                        });
+                    }
+                    
+                    // نافذة مخططات المجمع
+                    const plansInput = document.getElementById('plansPassword');
+                    if (plansInput) {
+                        plansInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkPlansPassword();
+                            }
+                        });
+                    }
+
+                    // نافذة تسجيل الطلب
+                    const maintenanceInput = document.getElementById('maintenancePassword');
+                    if (maintenanceInput) {
+                        maintenanceInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkMaintenancePassword();
+                            }
+                        });
+                    }
+
+                    // نافذة قاعدة البيانات
+                    const databaseInput = document.getElementById('databasePassword');
+                    if (databaseInput) {
+                        databaseInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkDatabasePassword();
+                            }
+                        });
+                    }
+
+                    // نافذة spare
+                    const spareInput = document.getElementById('sparePassword');
+                    if (spareInput) {
+                        spareInput.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                checkSparePassword();
+                            }
+                        });
+                    }
                 });
             }
+
+            // تشغيل النظام
             setupEnterKeyListeners();
         })();
     </script>
@@ -868,6 +1170,7 @@
             <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
         </button>
 
+        <!-- أيقونة الدعم الاحترافية الجديدة -->
         <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
             <a href="https://wa.me/9647735559707" target="_blank" class="support-icon-wrapper" style="border: none; background: none; box-shadow: none;">
                 <div class="support-icon">
@@ -883,6 +1186,7 @@
 
     <!-- ========== التطبيق الرئيسي ========== -->
     <div id="appContainer" class="app-container">
+        <!-- الشريط الجانبي -->
         <div class="sidebar">
             <div class="sidebar-header" onclick="showDashboard()">
                 <div class="logo" onclick="showDashboard()">
@@ -894,6 +1198,7 @@
             </div>
 
             <nav class="sidebar-nav">
+                <!-- زر الصفحة الرئيسية الجديد -->
                 <a href="#" class="nav-item" onclick="showDashboard()">
                     <i class="fas fa-home"></i> <span>الرئيسية</span>
                 </a>
@@ -908,18 +1213,22 @@
                     <i class="fas fa-snowflake"></i> <span>التبريد المركزي</span>
                 </a>
                 
+                <!-- ========== وحدة الكهرباء ========== -->
                 <a href="#" class="nav-item" onclick="openElectricityModal()">
                     <i class="fas fa-bolt"></i> <span>وحدة الكهرباء</span>
                 </a>
                 
+                <!-- ========== وحدة الميكانيك ========== -->
                 <a href="#" class="nav-item" onclick="openMechanicalModal()">
                     <i class="fas fa-cogs"></i> <span>وحدة الميكانيك</span>
                 </a>
                 
+                <!-- ========== مخططات المجمع ========== -->
                 <a href="#" class="nav-item" onclick="openPlansModal()">
                     <i class="fas fa-map"></i> <span>مخططات المجمع</span>
                 </a>
                 
+                <!-- ========== نافذة احتياط (Spare) جديدة ========== -->
                 <a href="#" class="nav-item" onclick="openSpareModal()">
                     <i class="fas fa-box"></i> <span>احتياط (Spare)</span>
                 </a>
@@ -948,6 +1257,7 @@
 
         <!-- ========== المحتوى الرئيسي ========== -->
         <div class="main-content">
+            <!-- قسم الرئيسية -->
             <div id="dashboardSection">
                 <div class="header">
                     <div class="welcome-section">
@@ -955,6 +1265,7 @@
                         <div class="department-info">برنامج الإسناد الهندسي</div>
                     </div>
 
+                    <!-- إعلان رمضان -->
                     <a href="#" class="pulsating-ad">
                         <div class="icon-image" style="border-radius: 50%; width: 70px; height: 70px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                             <img src="https://i.ibb.co/Qv1zpt5N/0.png" alt="رمضان" style="width: 100%; height: 100%; object-fit: contain;">
@@ -968,22 +1279,7 @@
                             <div class="date" id="currentDate"></div>
                         </div>
 
-                        <!-- زر الإعدادات -->
-                        <div style="position: relative;">
-                            <button class="settings-btn" onclick="toggleSettings()">
-                                <i class="fas fa-cog"></i>
-                            </button>
-                            <div id="settingsPanel" class="settings-panel">
-                                <div class="settings-option">
-                                    <label>طريقة عرض الملفات:</label>
-                                    <select id="viewPreference" onchange="saveViewPreference()">
-                                        <option value="internal">معاينة داخلية</option>
-                                        <option value="external">فتح خارجي</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- أيقونة الدعم الاحترافية الجديدة -->
                         <a href="https://wa.me/9647735559707" target="_blank" class="support-icon-wrapper" style="border: none; background: none; box-shadow: none;">
                             <div class="support-icon">
                                 <i class="fab fa-whatsapp"></i>
@@ -993,6 +1289,7 @@
                     </div>
                 </div>
 
+                <!-- بطاقات الرئيسية - جميعها مرئية للجميع -->
                 <div class="dashboard-grid">
                     <a href="https://wa.me/9647760055149" class="card" target="_blank">
                         <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
@@ -1024,24 +1321,28 @@
                         <div class="card-description">إدارة ومراقبة أنظمة التبريد</div>
                     </div>
 
+                    <!-- ========== بطاقة وحدة الكهرباء ========== -->
                     <div class="card" onclick="openElectricityModal()">
                         <div class="card-icon"><i class="fas fa-bolt"></i></div>
                         <div class="card-title">وحدة الكهرباء</div>
                         <div class="card-description">بيانات وحدة الكهرباء</div>
                     </div>
                     
+                    <!-- ========== بطاقة وحدة الميكانيك ========== -->
                     <div class="card" onclick="openMechanicalModal()">
                         <div class="card-icon"><i class="fas fa-cogs" style="background: #e67e22;"></i></div>
                         <div class="card-title">وحدة الميكانيك</div>
                         <div class="card-description">بيانات وأنظمة وحدة الميكانيك</div>
                     </div>
                     
+                    <!-- ========== بطاقة مخططات المجمع ========== -->
                     <div class="card" onclick="openPlansModal()">
                         <div class="card-icon"><i class="fas fa-map" style="background: #3498db;"></i></div>
                         <div class="card-title">مخططات المجمع</div>
                         <div class="card-description">مخططات وخرائط المجمع</div>
                     </div>
 
+                    <!-- ========== بطاقة احتياط (Spare) جديدة ========== -->
                     <div class="card" onclick="openSpareModal()">
                         <div class="card-icon"><i class="fas fa-box" style="background: #95a5a6;"></i></div>
                         <div class="card-title">احتياط (Spare)</div>
@@ -1085,7 +1386,9 @@
         </div>
     </div>
 
-    <!-- ========== نوافذ إدخال كلمة المرور ========== -->
+    <!-- ========== النوافذ المنبثقة ========== -->
+
+    <!-- نافذة القراءات -->
     <div id="readingsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1102,6 +1405,7 @@
         </div>
     </div>
 
+    <!-- نافذة التبريد المركزي (كلمة المرور) -->
     <div id="coolingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1121,6 +1425,7 @@
         </div>
     </div>
 
+    <!-- ========== نافذة وحدة الكهرباء ========== -->
     <div id="electricityModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1137,6 +1442,7 @@
         </div>
     </div>
 
+    <!-- ========== نافذة وحدة الميكانيك ========== -->
     <div id="mechanicalModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1153,6 +1459,7 @@
         </div>
     </div>
 
+    <!-- ========== نافذة مخططات المجمع ========== -->
     <div id="plansModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1169,6 +1476,7 @@
         </div>
     </div>
 
+    <!-- ========== نافذة تسجيل الطلب ========== -->
     <div id="maintenanceModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1185,6 +1493,7 @@
         </div>
     </div>
 
+    <!-- ========== نافذة قاعدة البيانات ========== -->
     <div id="databaseModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1201,6 +1510,7 @@
         </div>
     </div>
 
+    <!-- ========== نافذة احتياط (Spare) جديدة ========== -->
     <div id="spareModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1217,7 +1527,7 @@
         </div>
     </div>
 
-    <!-- ========== واجهات عرض الملفات (بدون محتوى وهمي) ========== -->
+    <!-- نافذة أنظمة التبريد (الواجهة الرئيسية) -->
     <div id="coolingInterface" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
@@ -1225,6 +1535,7 @@
                 <button class="close-btn" onclick="closeCoolingInterface()">×</button>
             </div>
             <div class="icons-grid">
+                <!-- أنظمة التبريد - 17 نظام -->
                 <a href="http://10.15.16.230/control/index.html" class="icon-item" target="_blank">
                     <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
                     <div class="icon-title">المركزي الثقافي (A-1)</div>
@@ -1299,107 +1610,201 @@
             </div>
         </div>
     </div>
-
-    <!-- وحدة الكهرباء - تعرض الملفات الحقيقية -->
+        <!-- ========== نافذة وحدة الكهرباء (الواجهة الرئيسية) ========== -->
     <div id="electricityInterface" class="modal" style="display: none;">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 900px;">
             <div class="modal-header">
                 <h3 class="modal-title">
                     <i class="fas fa-bolt" style="margin-left: 10px;"></i>
-                    وحدة الكهرباء - الملفات المتاحة
+                    وحدة الكهرباء - نظام التحكم
                 </h3>
                 <button class="close-btn" onclick="closeElectricityInterface()">×</button>
             </div>
             
-            <div id="electricityFilesContainer">
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin fa-3x"></i>
-                    <p>جاري تحميل الملفات...</p>
+            <!-- المحتوى القديم (يبقى كما هو) -->
+            <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
+                <i class="fas fa-bolt" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h4>قسم وحدة الكهرباء</h4>
+                <p>سيتم إضافة محتوى وحدة الكهرباء قريباً</p>
+            </div>
+
+            <!-- إضافة عرض الملفات الحقيقية -->
+            <div id="electricityFiles" class="files-section">
+                <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في وحدة الكهرباء</h4>
+                <div id="electricityFilesGrid" class="files-grid">
+                    <!-- سيتم تعبئتها تلقائياً عبر JavaScript -->
                 </div>
             </div>
 
             <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
                 <button class="btn btn-secondary" onclick="closeElectricityInterface()">
-                    <i class="fas fa-arrow-right"></i> رجوع
+                    <i class="fas fa-arrow-right"></i>
+                    رجوع
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- وحدة الميكانيك - تعرض الملفات الحقيقية -->
+    <!-- ========== نافذة وحدة الميكانيك (الواجهة الرئيسية) ========== -->
     <div id="mechanicalInterface" class="modal" style="display: none;">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-cogs" style="margin-left: 10px; color: #e67e22;"></i>
-                    وحدة الميكانيك - الملفات المتاحة
-                </h3>
+                <h3 class="modal-title">وحدة الميكانيك</h3>
                 <button class="close-btn" onclick="closeMechanicalInterface()">×</button>
             </div>
-            
-            <div id="mechanicalFilesContainer">
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin fa-3x"></i>
-                    <p>جاري تحميل الملفات...</p>
+            <div class="icons-grid">
+                <!-- محتوى وحدة الميكانيك القديم -->
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مضخات المياه</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">أنظمة التهوية</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المصاعد</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">أنظمة الضغط</div>
+                </a>
+            </div>
+
+            <!-- إضافة عرض الملفات الحقيقية -->
+            <div id="mechanicalFiles" class="files-section">
+                <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في وحدة الميكانيك</h4>
+                <div id="mechanicalFilesGrid" class="files-grid">
+                    <!-- سيتم تعبئتها تلقائياً عبر JavaScript -->
                 </div>
             </div>
 
-            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="closeMechanicalInterface()">
-                    <i class="fas fa-arrow-right"></i> رجوع
-                </button>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeMechanicalInterface()">رجوع</button>
             </div>
         </div>
     </div>
 
-    <!-- مخططات المجمع - تعرض الملفات الحقيقية -->
+    <!-- ========== نافذة مخططات المجمع (الواجهة الرئيسية) ========== -->
     <div id="plansInterface" class="modal" style="display: none;">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-map" style="margin-left: 10px; color: #3498db;"></i>
-                    مخططات المجمع - الملفات المتاحة
-                </h3>
+                <h3 class="modal-title">مخططات المجمع</h3>
                 <button class="close-btn" onclick="closePlansInterface()">×</button>
             </div>
-            
-            <div id="plansFilesContainer">
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin fa-3x"></i>
-                    <p>جاري تحميل الملفات...</p>
+            <div class="icons-grid">
+                <!-- محتوى مخططات المجمع القديم -->
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">المخطط العام</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مخططات الكهرباء</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مخططات التبريد</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">مخططات المياه</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">خرائط الطوابق</div>
+                </a>
+            </div>
+
+            <!-- إضافة عرض الملفات الحقيقية -->
+            <div id="plansFiles" class="files-section">
+                <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في مخططات المجمع</h4>
+                <div id="plansFilesGrid" class="files-grid">
+                    <!-- سيتم تعبئتها تلقائياً عبر JavaScript -->
                 </div>
             </div>
 
-            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="closePlansInterface()">
-                    <i class="fas fa-arrow-right"></i> رجوع
-                </button>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closePlansInterface()">رجوع</button>
             </div>
         </div>
     </div>
 
-    <!-- النظام الاحتياطي - تعرض الملفات الحقيقية -->
-    <div id="spareInterface" class="modal" style="display: none;">
-        <div class="modal-content">
+    <!-- ========== نافذة تسجيل الطلب (الواجهة الرئيسية) ========== -->
+    <div id="maintenanceInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-box" style="margin-left: 10px; color: #95a5a6;"></i>
-                    النظام الاحتياطي (Spare) - الملفات المتاحة
-                </h3>
+                <h3 class="modal-title">تسجيل طلب صيانة</h3>
+                <button class="close-btn" onclick="closeMaintenanceInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfeJbIjmvgbEWOzTUADOM3XrpOT6da1i1aAoSifhIaVm-voDw/viewform" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نموذج تسجيل طلب</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeMaintenanceInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة قاعدة البيانات (الواجهة الرئيسية) ========== -->
+    <div id="databaseInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">قاعدة البيانات</h3>
+                <button class="close-btn" onclick="closeDatabaseInterface()">×</button>
+            </div>
+            <div class="icons-grid">
+                <a href="https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">جدول البيانات</div>
+                </a>
+            </div>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeDatabaseInterface()">رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== نافذة احتياط (Spare) الواجهة الرئيسية ========== -->
+    <div id="spareInterface" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">النظام الاحتياطي (Spare)</h3>
                 <button class="close-btn" onclick="closeSpareInterface()">×</button>
             </div>
-            
-            <div id="spareFilesContainer">
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin fa-3x"></i>
-                    <p>جاري تحميل الملفات...</p>
+            <div class="icons-grid">
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 1</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 2</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 3</div>
+                </a>
+                <a href="#" class="icon-item" target="_blank">
+                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
+                    <div class="icon-title">نظام احتياطي 4</div>
+                </a>
+            </div>
+
+            <!-- إضافة عرض الملفات الحقيقية -->
+            <div id="spareFiles" class="files-section">
+                <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في النظام الاحتياطي</h4>
+                <div id="spareFilesGrid" class="files-grid">
+                    <!-- سيتم تعبئتها تلقائياً عبر JavaScript -->
                 </div>
             </div>
 
-            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="closeSpareInterface()">
-                    <i class="fas fa-arrow-right"></i> رجوع
-                </button>
+            <div class="modal-actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="closeSpareInterface()">رجوع</button>
             </div>
         </div>
     </div>
@@ -1451,6 +1856,7 @@
                     <label class="checkbox-item">
                         <input type="checkbox" id="permDatabase" value="database"> <span>قاعدة البيانات</span>
                     </label>
+                    <!-- ========== صلاحية احتياط (Spare) جديدة ========== -->
                     <label class="checkbox-item">
                         <input type="checkbox" id="permSpare" value="spare"> <span>احتياط (Spare)</span>
                     </label>
@@ -1467,34 +1873,39 @@
         </div>
     </div>
 
-    <!-- نافذة المعاينة الداخلية -->
+    <!-- ========== نافذة المعاينة الداخلية ========== -->
     <div id="previewModal" class="preview-modal">
-        <div class="preview-content">
-            <div class="preview-header">
+        <div class="preview-modal-content">
+            <div class="preview-modal-header">
                 <h3 id="previewTitle">معاينة الملف</h3>
-                <div class="preview-actions">
-                    <button class="btn btn-secondary btn-sm" onclick="openCurrentInNewTab()">
-                        <i class="fas fa-external-link-alt"></i> فتح خارجي
-                    </button>
-                    <button class="btn btn-primary btn-sm" onclick="closePreviewModal()">
-                        <i class="fas fa-times"></i> إغلاق
-                    </button>
-                </div>
+                <button class="close-btn" style="color: white;" onclick="closePreviewModal()">×</button>
             </div>
-            <div class="preview-body" id="previewBody">
-                <!-- المحتوى يتحمل هنا -->
+            <div class="preview-modal-body" id="previewBody">
+                <iframe id="previewIframe" class="preview-iframe" src=""></iframe>
+                <div id="previewFallback" class="preview-fallback" style="display: none;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ffc107; margin-bottom: 20px;"></i>
+                    <h4>تعذر عرض الملف</h4>
+                    <p>يمكنك تحميل الملف مباشرة</p>
+                    <a id="fallbackDownloadBtn" class="btn btn-primary" href="#" download>
+                        <i class="fas fa-download"></i> تحميل الملف
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ========== نظام JavaScript الموحد مع ربط الملفات ========== -->
-    <script>
-        // ========== إعدادات GitHub ==========
-        const GITHUB_USERNAME = 'mr0103';
-        const REPO_NAME = 'Al_esnad-Al_handasi';
-        const GITHUB_TOKEN = ''; // اتركه فارغاً إذا كان المستودع عاماً
+    <!-- ========== إعدادات العرض ========== -->
+    <div class="view-settings">
+        <label><i class="fas fa-eye"></i> طريقة العرض:</label>
+        <select id="viewModeSelect" onchange="saveViewMode()">
+            <option value="internal">معاينة داخلية</option>
+            <option value="external">فتح خارجي</option>
+        </select>
+    </div>
 
-        // ========== بيانات المستخدمين والصلاحيات (كما هي) ==========
+    <!-- ========== نظام JavaScript الموحد مع الإضافات ========== -->
+    <script>
+        // ========== بيانات المستخدمين والصلاحيات (مع إضافة صلاحية spare) ==========
         const users = {
             "admin": { 
                 password: "78672062", 
@@ -1518,7 +1929,7 @@
             }
         };
 
-        // رموز الدخول (كما هي)
+        // رموز الدخول للنوافذ
         const READINGS_PASSWORD = "1";
         const COOLING_PASSWORD = "1";
         const ELECTRICITY_PASSWORDS = ["1", "2", "3", "صين", "قاعة", "كهرباء"];
@@ -1528,213 +1939,196 @@
         const DATABASE_PASSWORD = "1";
         const SPARE_PASSWORD = "1";
 
+        // إعدادات GitHub
+        const GITHUB_USERNAME = 'mr0103';
+        const REPO_NAME = 'Al_esnad-Al_handasi';
+        const BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/`;
+
         let currentUser = null;
-        let currentPreviewUrl = '';
+        let viewMode = 'internal'; // internal or external
 
-        // ========== إعدادات العرض ==========
-        function toggleSettings() {
-            document.getElementById('settingsPanel').classList.toggle('show');
+        // تحميل إعدادات العرض المحفوظة
+        function loadViewMode() {
+            const saved = localStorage.getItem('viewMode');
+            if (saved) {
+                viewMode = saved;
+                document.getElementById('viewModeSelect').value = saved;
+            }
         }
 
-        function saveViewPreference() {
-            const preference = document.getElementById('viewPreference').value;
-            localStorage.setItem('viewPreference', preference);
+        // حفظ إعدادات العرض
+        function saveViewMode() {
+            viewMode = document.getElementById('viewModeSelect').value;
+            localStorage.setItem('viewMode', viewMode);
         }
 
-        function getViewPreference() {
-            return localStorage.getItem('viewPreference') || 'internal';
-        }
-
-        // تحميل الإعدادات المحفوظة
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedPreference = getViewPreference();
-            document.getElementById('viewPreference').value = savedPreference;
-        });
-
-        // ========== دوال GitHub API ==========
-        async function fetchFolderContents(folderName) {
-            const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${folderName}`;
+        // ========== دالة عرض رسالة المنع المحسنة ==========
+        function showPermissionDenied(windowName) {
+            // إزالة أي رسالة سابقة
+            const existingToast = document.querySelector('.permission-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
             
-            try {
-                const headers = {};
-                if (GITHUB_TOKEN) {
-                    headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+            // إنشاء رسالة جديدة
+            const toast = document.createElement('div');
+            toast.className = 'permission-toast';
+            toast.innerHTML = `
+                <i class="fas fa-ban"></i>
+                <span>عذراً، ليس لديك صلاحية للوصول إلى "${windowName}"</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // إزالة الرسالة بعد 5 ثواني
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
                 }
-                
-                const response = await fetch(url, { headers });
+            }, 5000);
+        }
+
+        // ========== جلب محتويات المجلد من GitHub ==========
+        async function fetchFolderContents(folderName, gridId) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+
+            grid.innerHTML = '<div class="loading-files"><i class="fas fa-spinner"></i><br>جاري تحميل الملفات...</div>';
+
+            try {
+                const url = `${BASE_URL}${folderName}`;
+                const response = await fetch(url);
                 
                 if (!response.ok) {
                     throw new Error('فشل في تحميل الملفات');
                 }
+
+                const files = await response.json();
                 
-                const contents = await response.json();
-                return contents.filter(item => item.type === 'file');
+                if (!files || files.length === 0) {
+                    grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
+                    return;
+                }
+
+                // تصفية الملفات (نستبعد المجلدات)
+                const validFiles = files.filter(file => file.type === 'file');
+                
+                if (validFiles.length === 0) {
+                    grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
+                    return;
+                }
+
+                // عرض الملفات
+                displayFiles(validFiles, grid);
+
             } catch (error) {
-                console.error('Error fetching folder:', error);
-                showErrorToast('حدث خطأ في تحميل الملفات. يرجى المحاولة لاحقاً.');
-                return [];
+                console.error('Error fetching files:', error);
+                grid.innerHTML = '<div class="empty-folder">حدث خطأ في تحميل الملفات</div>';
             }
         }
 
-        function showErrorToast(message) {
-            const existingToast = document.querySelector('.error-toast');
-            if (existingToast) existingToast.remove();
-
-            const toast = document.createElement('div');
-            toast.className = 'error-toast';
-            toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span>${message}</span>`;
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                if (toast.parentNode) toast.remove();
-            }, 5000);
-        }
-
-        function getFileIcon(fileName) {
-            const ext = fileName.split('.').pop().toLowerCase();
+        // ========== عرض الملفات في الشبكة ==========
+        function displayFiles(files, grid) {
+            grid.innerHTML = '';
             
-            if (ext === 'pdf') return { icon: 'fa-file-pdf', class: 'pdf' };
-            if (['xlsx', 'xls', 'csv'].includes(ext)) return { icon: 'fa-file-excel', class: 'excel' };
-            if (['docx', 'doc'].includes(ext)) return { icon: 'fa-file-word', class: 'word' };
-            if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(ext)) return { icon: 'fa-file-image', class: 'image' };
-            return { icon: 'fa-file', class: '' };
-        }
-
-        function getFileUrl(folderName, fileName) {
-            return `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${folderName}/${encodeURIComponent(fileName)}`;
-        }
-
-        // ========== عرض الملفات في شبكة ==========
-        function displayFilesAsGrid(files, containerId, folderName) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            if (!files || files.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-folder">
-                        <i class="fas fa-folder-open fa-3x" style="margin-bottom: 1rem;"></i>
-                        <p>لا توجد ملفات في هذا المجلد حالياً</p>
+            files.forEach(file => {
+                const fileCard = document.createElement('div');
+                fileCard.className = 'file-card';
+                
+                const fileName = file.name;
+                const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${file.path}`;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                
+                // تحديد الأيقونة حسب نوع الملف
+                let iconClass = 'other';
+                let iconHtml = '';
+                
+                if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(fileExtension)) {
+                    iconClass = 'image';
+                    iconHtml = '<i class="fas fa-file-image"></i>';
+                } else if (fileExtension === 'pdf') {
+                    iconClass = 'pdf';
+                    iconHtml = '<i class="fas fa-file-pdf"></i>';
+                } else if (['xlsx', 'xls', 'csv'].includes(fileExtension)) {
+                    iconClass = 'excel';
+                    iconHtml = '<i class="fas fa-file-excel"></i>';
+                } else if (['docx', 'doc'].includes(fileExtension)) {
+                    iconClass = 'word';
+                    iconHtml = '<i class="fas fa-file-word"></i>';
+                } else {
+                    iconHtml = '<i class="fas fa-file"></i>';
+                }
+                
+                fileCard.innerHTML = `
+                    <div class="file-icon ${iconClass}">${iconHtml}</div>
+                    <div class="file-name" title="${fileName}">${fileName}</div>
+                    <div class="file-actions">
+                        <button class="file-action-btn preview" onclick="previewFile('${fileUrl}', '${fileName}')">
+                            <i class="fas fa-eye"></i> معاينة
+                        </button>
+                        <button class="file-action-btn external" onclick="openExternal('${fileUrl}')">
+                            <i class="fas fa-external-link-alt"></i> فتح
+                        </button>
+                        <a href="${fileUrl}" download class="file-action-btn download">
+                            <i class="fas fa-download"></i>
+                        </a>
                     </div>
                 `;
+                
+                grid.appendChild(fileCard);
+            });
+        }
+
+        // ========== معاينة الملف داخلياً ==========
+        function previewFile(fileUrl, fileName) {
+            if (viewMode === 'external') {
+                window.open(fileUrl, '_blank');
                 return;
             }
 
-            let html = '<div class="files-grid">';
-            
-            files.forEach(file => {
-                const fileIcon = getFileIcon(file.name);
-                const fileUrl = getFileUrl(folderName, file.name);
+            try {
+                document.getElementById('previewTitle').textContent = `معاينة: ${fileName}`;
+                document.getElementById('previewIframe').src = fileUrl;
+                document.getElementById('previewModal').style.display = 'flex';
                 
-                html += `
-                    <div class="file-card" onclick="openFileWithPreference('${fileUrl}', '${file.name}')">
-                        <div class="file-icon ${fileIcon.class}">
-                            <i class="fas ${fileIcon.icon}"></i>
-                        </div>
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-actions" onclick="event.stopPropagation()">
-                            <button class="file-action-btn" onclick="openFileInternal('${fileUrl}', '${file.name}')">
-                                <i class="fas fa-eye"></i> معاينة
-                            </button>
-                            <button class="file-action-btn external" onclick="window.open('${fileUrl}', '_blank')">
-                                <i class="fas fa-external-link-alt"></i> فتح
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            container.innerHTML = html;
-        }
+                // إعداد رابط التحميل الاحتياطي
+                document.getElementById('fallbackDownloadBtn').href = fileUrl;
+                
+                // اختبار إذا كان الملف سيعمل
+                setTimeout(() => {
+                    const iframe = document.getElementById('previewIframe');
+                    try {
+                        if (iframe.contentDocument && iframe.contentDocument.body && iframe.contentDocument.body.innerHTML === '') {
+                            // الملف لم يعمل، عرض الخيار الاحتياطي
+                            document.getElementById('previewIframe').style.display = 'none';
+                            document.getElementById('previewFallback').style.display = 'block';
+                        }
+                    } catch (e) {
+                        // خطأ في الوصول للإطار، نعتبر أن الملف يعمل
+                    }
+                }, 2000);
 
-        function openFileWithPreference(fileUrl, fileName) {
-            const preference = getViewPreference();
-            if (preference === 'internal') {
-                openFileInternal(fileUrl, fileName);
-            } else {
+            } catch (error) {
+                console.error('Preview error:', error);
+                // إذا فشلت المعاينة، نفتح خارجياً
                 window.open(fileUrl, '_blank');
             }
         }
 
-        function openFileInternal(fileUrl, fileName) {
-            currentPreviewUrl = fileUrl;
-            document.getElementById('previewTitle').textContent = fileName;
-            
-            const previewBody = document.getElementById('previewBody');
-            const ext = fileName.split('.').pop().toLowerCase();
-            
-            if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(ext)) {
-                previewBody.innerHTML = `<img src="${fileUrl}" alt="${fileName}" style="max-width: 100%; max-height: 100%;">`;
-            } else {
-                previewBody.innerHTML = `<iframe src="${fileUrl}" title="${fileName}"></iframe>`;
-            }
-            
-            document.getElementById('previewModal').style.display = 'flex';
+        // ========== فتح الملف خارجياً ==========
+        function openExternal(fileUrl) {
+            window.open(fileUrl, '_blank');
         }
 
-        function openCurrentInNewTab() {
-            if (currentPreviewUrl) {
-                window.open(currentPreviewUrl, '_blank');
-            }
-        }
-
+        // ========== إغلاق نافذة المعاينة ==========
         function closePreviewModal() {
             document.getElementById('previewModal').style.display = 'none';
-            document.getElementById('previewBody').innerHTML = '';
+            document.getElementById('previewIframe').src = '';
+            document.getElementById('previewIframe').style.display = 'block';
+            document.getElementById('previewFallback').style.display = 'none';
         }
 
-        // ========== دوال فتح النوافذ مع جلب الملفات ==========
-        async function openElectricityInterface() {
-            document.getElementById('electricityInterface').style.display = 'flex';
-            const container = document.getElementById('electricityFilesContainer');
-            container.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin fa-3x"></i><p>جاري تحميل الملفات...</p></div>';
-            
-            const files = await fetchFolderContents('electric_unit');
-            displayFilesAsGrid(files, 'electricityFilesContainer', 'electric_unit');
-        }
-
-        async function openMechanicalInterface() {
-            document.getElementById('mechanicalInterface').style.display = 'flex';
-            const container = document.getElementById('mechanicalFilesContainer');
-            container.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin fa-3x"></i><p>جاري تحميل الملفات...</p></div>';
-            
-            const files = await fetchFolderContents('mechanic_unit');
-            displayFilesAsGrid(files, 'mechanicalFilesContainer', 'mechanic_unit');
-        }
-
-        async function openPlansInterface() {
-            document.getElementById('plansInterface').style.display = 'flex';
-            const container = document.getElementById('plansFilesContainer');
-            container.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin fa-3x"></i><p>جاري تحميل الملفات...</p></div>';
-            
-            const files = await fetchFolderContents('plans');
-            displayFilesAsGrid(files, 'plansFilesContainer', 'plans');
-        }
-
-        async function openSpareInterface() {
-            document.getElementById('spareInterface').style.display = 'flex';
-            const container = document.getElementById('spareFilesContainer');
-            container.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin fa-3x"></i><p>جاري تحميل الملفات...</p></div>';
-            
-            const files = await fetchFolderContents('spare');
-            displayFilesAsGrid(files, 'spareFilesContainer', 'spare');
-        }
-
-        // ========== دوال النظام الأساسية (كما هي) ==========
-        function showPermissionDenied(windowName) {
-            const existingToast = document.querySelector('.permission-toast');
-            if (existingToast) existingToast.remove();
-            
-            const toast = document.createElement('div');
-            toast.className = 'permission-toast';
-            toast.innerHTML = `<i class="fas fa-ban"></i> <span>عذراً، ليس لديك صلاحية للوصول إلى "${windowName}"</span>`;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                if (toast.parentNode) toast.remove();
-            }, 5000);
-        }
-
+        // ========== دوال النظام الأساسية ==========
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
@@ -1768,22 +2162,28 @@
         }
 
         function showDashboard() {
+            // إخفاء جميع الأقسام أولاً
             document.querySelectorAll('.main-content > div').forEach(section => {
                 section.style.display = 'none';
             });
+            
+            // إظهار قسم الرئيسية
             document.getElementById('dashboardSection').style.display = 'block';
             
+            // تحديث الحالة النشطة في القائمة
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
         }
 
         function showSection(sectionName) {
+            // إخفاء جميع الأقسام أولاً
             document.querySelectorAll('.main-content > div').forEach(section => {
                 section.style.display = 'none';
             });
             
             if (sectionName === 'users') {
+                // التحقق من صلاحية إدارة المستخدمين عند محاولة الدخول
                 if (!currentUser?.permissions.includes('users')) {
                     showPermissionDenied('إدارة المستخدمين');
                     document.getElementById('dashboardSection').style.display = 'block';
@@ -1793,6 +2193,7 @@
                 loadUsersTable();
             }
             
+            // تحديث الحالة النشطة في القائمة
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
@@ -1807,14 +2208,19 @@
         function updateDateTime() {
             const now = new Date();
             document.getElementById('currentTime').textContent = now.toLocaleTimeString('ar-EG', {
-                hour: '2-digit', minute: '2-digit', second: '2-digit'
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
             });
             document.getElementById('currentDate').textContent = now.toLocaleDateString('ar-EG', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
         }
 
-        // ========== إدارة المستخدمين (كما هي) ==========
+        // ========== إدارة المستخدمين ==========
         function loadUsersTable() {
             const tbody = document.getElementById('usersTableBody');
             tbody.innerHTML = '';
@@ -1840,6 +2246,7 @@
         }
 
         function openAddUserModal() {
+            // التحقق من صلاحية إدارة المستخدمين
             if (!currentUser?.permissions.includes('users')) {
                 showPermissionDenied('إضافة مستخدم');
                 return;
@@ -1883,6 +2290,7 @@
         }
 
         function editUser(username) { 
+            // التحقق من صلاحية إدارة المستخدمين
             if (!currentUser?.permissions.includes('users')) {
                 showPermissionDenied('تعديل المستخدمين');
                 return;
@@ -1891,6 +2299,7 @@
         }
 
         function deleteUser(username) {
+            // التحقق من صلاحية إدارة المستخدمين
             if (!currentUser?.permissions.includes('users')) {
                 showPermissionDenied('حذف المستخدمين');
                 return;
@@ -1903,12 +2312,13 @@
             }
         }
 
-        // ========== دوال النوافذ (كما هي مع تعديل فتح الواجهات) ==========
+        // ========== دوال القراءات (تم إلغاء كلمة المرور) ==========
         function openReadingsModal() {
             if (!currentUser?.permissions.includes('readings')) {
                 showPermissionDenied('القراءات');
                 return;
             }
+            // فتح الرابط مباشرة بدون نافذة كلمة المرور
             window.open('https://docs.google.com/spreadsheets/d/1hj4vc0WUNASJOAJQ1rZkdgCT8SeHhoYDR20QFtk5GFY/edit?gid=2017102556#gid=2017102556', '_blank');
         }
 
@@ -1919,14 +2329,17 @@
         }
 
         function checkReadingsPassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
             closeReadingsModal();
         }
 
+        // ========== دوال التبريد المركزي (تم إلغاء كلمة المرور) ==========
         function openCoolingModal() {
             if (!currentUser?.permissions.includes('cooling')) {
                 showPermissionDenied('أنظمة التبريد المركزي');
                 return;
             }
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
             document.getElementById('coolingInterface').style.display = 'flex';
         }
 
@@ -1937,6 +2350,7 @@
         }
 
         function checkCoolingPassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
             closeCoolingModal();
         }
 
@@ -1944,6 +2358,7 @@
             document.getElementById('coolingInterface').style.display = 'none';
         }
 
+        // ========== دوال وحدة الكهرباء (تبقى محمية بكلمة المرور) ==========
         function openElectricityModal() {
             if (!currentUser?.permissions.includes('electricity')) {
                 showPermissionDenied('وحدة الكهرباء');
@@ -1963,9 +2378,12 @@
             const enteredPassword = document.getElementById('electricityPassword').value;
             if (ELECTRICITY_PASSWORDS.includes(enteredPassword)) {
                 document.getElementById('electricityModal').style.display = 'none';
-                openElectricityInterface();
+                document.getElementById('electricityInterface').style.display = 'flex';
                 document.getElementById('electricityError').style.display = 'none';
                 document.getElementById('electricityPassword').value = '';
+                
+                // جلب الملفات عند فتح النافذة
+                fetchFolderContents('electric_unit', 'electricityFilesGrid');
             } else {
                 document.getElementById('electricityError').style.display = 'block';
             }
@@ -1975,13 +2393,16 @@
             document.getElementById('electricityInterface').style.display = 'none';
         }
 
+        // ========== دوال وحدة الميكانيك (تم إلغاء كلمة المرور) ==========
         function openMechanicalModal() {
             if (!currentUser?.permissions.includes('mechanical')) {
                 showPermissionDenied('وحدة الميكانيك');
                 return;
             }
-            document.getElementById('mechanicalModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('mechanicalPassword').focus(), 100);
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('mechanicalInterface').style.display = 'flex';
+            // جلب الملفات
+            fetchFolderContents('mechanic_unit', 'mechanicalFilesGrid');
         }
 
         function closeMechanicalModal() {
@@ -1991,28 +2412,24 @@
         }
 
         function checkMechanicalPassword() {
-            const enteredPassword = document.getElementById('mechanicalPassword').value;
-            if (enteredPassword === MECHANICAL_PASSWORD) {
-                document.getElementById('mechanicalModal').style.display = 'none';
-                openMechanicalInterface();
-                document.getElementById('mechanicalError').style.display = 'none';
-                document.getElementById('mechanicalPassword').value = '';
-            } else {
-                document.getElementById('mechanicalError').style.display = 'block';
-            }
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeMechanicalModal();
         }
 
         function closeMechanicalInterface() {
             document.getElementById('mechanicalInterface').style.display = 'none';
         }
 
+        // ========== دوال مخططات المجمع (تم إلغاء كلمة المرور) ==========
         function openPlansModal() {
             if (!currentUser?.permissions.includes('plans')) {
                 showPermissionDenied('مخططات المجمع');
                 return;
             }
-            document.getElementById('plansModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('plansPassword').focus(), 100);
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('plansInterface').style.display = 'flex';
+            // جلب الملفات
+            fetchFolderContents('plans', 'plansFilesGrid');
         }
 
         function closePlansModal() {
@@ -2022,26 +2439,21 @@
         }
 
         function checkPlansPassword() {
-            const enteredPassword = document.getElementById('plansPassword').value;
-            if (enteredPassword === PLANS_PASSWORD) {
-                document.getElementById('plansModal').style.display = 'none';
-                openPlansInterface();
-                document.getElementById('plansError').style.display = 'none';
-                document.getElementById('plansPassword').value = '';
-            } else {
-                document.getElementById('plansError').style.display = 'block';
-            }
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closePlansModal();
         }
 
         function closePlansInterface() {
             document.getElementById('plansInterface').style.display = 'none';
         }
 
+        // ========== دوال تسجيل الطلب (تم إلغاء كلمة المرور - تفتح الرابط مباشرة) ==========
         function openMaintenanceModal() {
             if (!currentUser?.permissions.includes('maintenance')) {
                 showPermissionDenied('تسجيل طلب');
                 return;
             }
+            // فتح الرابط مباشرة بدون نافذة كلمة المرور
             window.open('https://docs.google.com/forms/d/e/1FAIpQLSfeJbIjmvgbEWOzTUADOM3XrpOT6da1i1aAoSifhIaVm-voDw/viewform', '_blank');
         }
 
@@ -2052,6 +2464,7 @@
         }
 
         function checkMaintenancePassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
             closeMaintenanceModal();
         }
 
@@ -2059,11 +2472,13 @@
             document.getElementById('maintenanceInterface').style.display = 'none';
         }
 
+        // ========== دوال قاعدة البيانات (تم إلغاء كلمة المرور - تفتح الرابط مباشرة) ==========
         function openDatabaseModal() {
             if (!currentUser?.permissions.includes('database')) {
                 showPermissionDenied('قاعدة البيانات');
                 return;
             }
+            // فتح الرابط مباشرة بدون نافذة كلمة المرور
             window.open('https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit', '_blank');
         }
 
@@ -2074,6 +2489,7 @@
         }
 
         function checkDatabasePassword() {
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
             closeDatabaseModal();
         }
 
@@ -2081,13 +2497,16 @@
             document.getElementById('databaseInterface').style.display = 'none';
         }
 
+        // ========== دوال احتياط (Spare) - تم إلغاء كلمة المرور ==========
         function openSpareModal() {
             if (!currentUser?.permissions.includes('spare')) {
                 showPermissionDenied('النظام الاحتياطي');
                 return;
             }
-            document.getElementById('spareModal').style.display = 'flex';
-            setTimeout(() => document.getElementById('sparePassword').focus(), 100);
+            // فتح الواجهة مباشرة بدون نافذة كلمة المرور
+            document.getElementById('spareInterface').style.display = 'flex';
+            // جلب الملفات
+            fetchFolderContents('spare', 'spareFilesGrid');
         }
 
         function closeSpareModal() {
@@ -2097,15 +2516,8 @@
         }
 
         function checkSparePassword() {
-            const enteredPassword = document.getElementById('sparePassword').value;
-            if (enteredPassword === SPARE_PASSWORD) {
-                document.getElementById('spareModal').style.display = 'none';
-                openSpareInterface();
-                document.getElementById('spareError').style.display = 'none';
-                document.getElementById('sparePassword').value = '';
-            } else {
-                document.getElementById('spareError').style.display = 'block';
-            }
+            // تم إلغاء كلمة المرور - هذه الدالة لن تستخدم
+            closeSpareModal();
         }
 
         function closeSpareInterface() {
@@ -2125,11 +2537,13 @@
                 'plansModal': closePlansModal,
                 'plansInterface': closePlansInterface,
                 'maintenanceModal': closeMaintenanceModal,
+                'maintenanceInterface': closeMaintenanceInterface,
                 'databaseModal': closeDatabaseModal,
+                'databaseInterface': closeDatabaseInterface,
                 'spareModal': closeSpareModal,
                 'spareInterface': closeSpareInterface,
                 'addUserModal': closeAddUserModal,
-                'previewModal': function() { document.getElementById('previewModal').style.display = 'none'; }
+                'previewModal': closePreviewModal
             };
             
             for (const [modalId, closeFunc] of Object.entries(modals)) {
@@ -2138,21 +2552,15 @@
                     closeFunc();
                 }
             }
-        };
+        }
 
-        // منع إغلاق نافذة المعاينة عند النقر داخلها
-        document.addEventListener('click', function(event) {
-            const previewContent = document.querySelector('.preview-content');
-            if (event.target.classList.contains('preview-modal')) {
-                closePreviewModal();
-            }
-        });
-
-        // ========== التشغيل الأولي ==========
+        // ========== جعل المؤشر يذهب تلقائياً إلى حقل اسم المستخدم ==========
         window.onload = function() {
             document.getElementById('loginUsername').focus();
+            loadViewMode();
         };
 
+        // ========== التشغيل الأولي ==========
         setInterval(updateDateTime, 1000);
         updateDateTime();
     </script>
