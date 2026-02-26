@@ -2187,6 +2187,57 @@ function checkElectricityPassword() {
     }
 }
 
+
+
+
     </script>
+
+
+<script>
+function loadFolderFiles(folderName) {
+    const filesList = document.getElementById('filesList'); // تأكد أن لديك عنصر بهذا الـ ID داخل الـ Modal
+    if(!filesList) return;
+
+    filesList.innerHTML = '<div style="text-align:center; width:100%;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
+
+    const username = "mr0103";
+    const repo = "Al_esnad-Al_handasi";
+    const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folderName}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(files => {
+            filesList.innerHTML = ''; 
+            if (!Array.isArray(files)) throw new Error();
+
+            files.forEach(file => {
+                let iconClass = 'fa-file';
+                let iconColor = '#95a5a6';
+                const extension = file.name.split('.').pop().toLowerCase();
+
+                // تحديد الأيقونة حسب النوع (Excel, Word, PDF)
+                if (extension === 'pdf') { iconClass = 'fa-file-pdf'; iconColor = '#e74c3c'; }
+                else if (['doc', 'docx'].includes(extension)) { iconClass = 'fa-file-word'; iconColor = '#2b579a'; }
+                else if (['xls', 'xlsx'].includes(extension)) { iconClass = 'fa-file-excel'; iconColor = '#217346'; }
+                else if (['jpg', 'png', 'jpeg'].includes(extension)) { iconClass = 'fa-file-image'; iconColor = '#3498db'; }
+
+                const item = document.createElement('a');
+                item.href = `https://${username}.github.io/${repo}/${folderName}/${file.name}`;
+                item.target = '_blank';
+                item.className = 'icon-item';
+                item.innerHTML = `
+                    <div class="icon-image" style="display:flex; align-items:center; justify-content:center;">
+                        <i class="fas ${iconClass}" style="font-size:3rem; color:${iconColor};"></i>
+                    </div>
+                    <div class="icon-title" style="font-size:0.8rem;">${file.name}</div>
+                `;
+                filesList.appendChild(item);
+            });
+        })
+        .catch(() => {
+            filesList.innerHTML = '<p style="color:red; text-align:center;">فشل جلب الملفات. تأكد من اتصال الإنترنت واسم المجلد.</p>';
+        });
+}
+</script>
 </body>
 </html>
