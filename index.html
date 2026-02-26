@@ -1392,16 +1392,16 @@
             <div class="modal-header">
                 <h3 class="modal-title">
                     <i class="fas fa-bolt" style="margin-left: 10px;"></i>
-                    وحدة الكهرباء - نظام التحكم
+                    ملفات وحدة الكهرباء
                 </h3>
                 <button class="close-btn" onclick="closeElectricityInterface()">×</button>
             </div>
             
-            <!-- يمكنك إضافة محتوى وحدة الكهرباء هنا لاحقاً -->
-            <div style="text-align: center; padding: 50px; color: var(--text-secondary);">
-                <i class="fas fa-bolt" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
-                <h4>قسم وحدة الكهرباء</h4>
-                <p>سيتم إضافة محتوى وحدة الكهرباء قريباً</p>
+            <div id="filesList" class="icons-grid">
+                <div style="text-align: center; width: 100%; padding: 20px;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                    <p>جاري تحميل الملفات من السيرفر...</p>
+                </div>
             </div>
 
             <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
@@ -2102,6 +2102,73 @@
         // ========== التشغيل الأولي ==========
         setInterval(updateDateTime, 1000);
         updateDateTime();
+
+// دالة لجلب الملفات من السيرفر وعرضها
+function loadElectricFiles() {
+    const filesList = document.getElementById('filesList');
+    
+    // إظهار رسالة تحميل
+    filesList.innerHTML = '<div style="text-align:center; width:100%;"><i class="fas fa-spinner fa-spin"></i> جاري جلب الملفات...</div>';
+
+    fetch('get_files.php')
+        .then(response => response.json())
+        .then(files => {
+            filesList.innerHTML = ''; 
+
+            if (files.length === 0) {
+                filesList.innerHTML = '<p style="text-align:center; width:100%;">لا توجد ملفات في المجلد حالياً.</p>';
+                return;
+            }
+
+            files.forEach(file => {
+                let iconClass = 'fa-file';
+                let iconColor = '#95a5a6';
+                
+                if (file.endsWith('.pdf')) {
+                    iconClass = 'fa-file-pdf';
+                    iconColor = '#e74c3c';
+                } else if (file.match(/\.(jpg|jpeg|png|gif)$/i)) {
+                    iconClass = 'fa-file-image';
+                    iconColor = '#3498db';
+                }
+
+                const item = document.createElement('a');
+                item.href = `./electric_unit/${file}`;
+                item.target = '_blank';
+                item.className = 'icon-item';
+                item.innerHTML = `
+                    <div class="icon-image" style="display: flex; align-items: center; justify-content: center;">
+                        <i class="fas ${iconClass}" style="font-size: 3rem; color: ${iconColor};"></i>
+                    </div>
+                    <div class="icon-title" style="font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        ${file}
+                    </div>
+                `;
+                filesList.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            filesList.innerHTML = '<p style="text-align:center; width:100%; color:red;">حدث خطأ في الاتصال بالسيرفر.</p>';
+        });
+}
+
+// دالة التحقق من كلمة المرور (النسخة النهائية)
+function checkElectricityPassword() {
+    const enteredPassword = document.getElementById('electricityPassword').value;
+    if (ELECTRICITY_PASSWORDS.includes(enteredPassword)) {
+        document.getElementById('electricityModal').style.display = 'none';
+        document.getElementById('electricityInterface').style.display = 'flex'; // فتح واجهة الملفات
+        document.getElementById('electricityError').style.display = 'none';
+        document.getElementById('electricityPassword').value = '';
+        
+        // جلب الملفات بمجرد النجاح في الدخول
+        loadElectricFiles();
+    } else {
+        document.getElementById('electricityError').style.display = 'block';
+    }
+}
+
     </script>
 </body>
 </html>
