@@ -1696,7 +1696,7 @@
                     <i class="fas fa-map"></i> <span>مخططات المجمع</span>
                 </a>
                 
-                <a href="#" class="nav-item" onclick="openAttendanceModal()">
+                <a href="#" class="nav-item" onclick="opentableModal()">
                       <i class="fas fa-calendar-alt"></i> <span>جدول الدوام</span>
                 </a>
 
@@ -1808,7 +1808,7 @@
                         <div class="card-description">مخططات وخرائط المجمع</div>
                     </div>
 
-                    <div class="card" onclick="openAttendanceModal()">
+                    <div class="card" onclick="opentableModal()">
     <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
     <div class="card-title">جدول الدوام</div>
     <div class="card-description">عرض جداول الدوام والمواعيد</div>
@@ -2082,49 +2082,7 @@
         </div>
     </div>
 
-    <!-- نافذة وحدة الكهرباء (الواجهة الرئيسية) -->
-    <div id="electricityInterface" class="modal" style="display: none;">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-bolt" style="margin-left: 10px;"></i>
-                    وحدة الكهرباء - نظام التحكم
-                </h3>
-                <button class="close-btn" onclick="closeElectricityInterface()">×</button>
-            </div>
-            
-            <div id="electricityFiles" class="files-section">
-                <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في وحدة الكهرباء</h4>
-                <div id="electricityFilesGrid" class="files-grid"></div>
-            </div>
-
-            <div class="modal-actions" style="justify-content: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="closeElectricityInterface()">
-                    <i class="fas fa-arrow-right"></i> رجوع
-                </button>
-            </div>
-        </div>
-    </div>
-<!-- نافذة جدول الدوام (بدون كلمة مرور) -->
-<div id="attendanceInterface" class="modal" style="display: none;">
-    <div class="modal-content" style="max-width: 800px;">
-        <div class="modal-header">
-            <h3 class="modal-title">جدول الدوام</h3>
-            <button class="close-btn" onclick="closeAttendanceInterface()">×</button>
-        </div>
-
-        <div id="attendanceFiles" class="files-section">
-            <h4><i class="fas fa-folder-open"></i> ملفات جدول الدوام</h4>
-            <div id="attendanceFilesGrid" class="files-grid"></div>
-        </div>
-
-        <div class="modal-actions" style="justify-content: center;">
-            <button class="btn btn-secondary" onclick="closeAttendanceInterface()">رجوع</button>
-        </div>
-    </div>
-</div>
-
-
+  
     <!-- نافذة وحدة الميكانيك (الواجهة الرئيسية) -->
     <div id="mechanicalInterface" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 800px;">
@@ -2162,25 +2120,25 @@
             </div>
         </div>
     </div>
-
-    <!-- نافذة جدول الدوام (الواجهة الرئيسية) -->
-<div id="attendanceInterface" class="modal" style="display: none;">
+<!-- نافذة جدول الدوام (الواجهة الرئيسية) - بدون كلمة مرور -->
+<div id="tableInterface" class="modal" style="display: none;">
     <div class="modal-content" style="max-width: 800px;">
         <div class="modal-header">
-            <h3 class="modal-title">جدول الدوام</h3>
-            <button class="close-btn" onclick="closeAttendanceInterface()">×</button>
+            <h3 class="modal-title">📅 جدول الدوام</h3>
+            <button class="close-btn" onclick="closetableInterface()">×</button>
         </div>
 
-        <div id="attendanceFiles" class="files-section">
+        <div class="files-section">
             <h4><i class="fas fa-folder-open"></i> ملفات جدول الدوام</h4>
-            <div id="attendanceFilesGrid" class="files-grid"></div>
+            <div id="tableFilesGrid" class="files-grid"></div>
         </div>
 
         <div class="modal-actions" style="justify-content: center;">
-            <button class="btn btn-secondary" onclick="closeAttendanceInterface()">رجوع</button>
+            <button class="btn btn-secondary" onclick="closetableInterface()">رجوع</button>
         </div>
     </div>
 </div>
+
 
     <!-- نافذة تسجيل الطلب (الواجهة الرئيسية) -->
     <div id="maintenanceInterface" class="modal" style="display: none;">
@@ -2330,7 +2288,7 @@
             "admin": { 
     password: "78672062", 
     name: "مدير النظام", 
-    permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare", "attendance"] 
+    permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare", "table"] 
 },
             "Mu": { 
                 password: "", 
@@ -2345,7 +2303,7 @@
             "2001": { 
                 password: "", 
                 name: "مرتضى عبد الكاظم", 
-                permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare" , "attendance"] 
+                permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare" , "table"] 
              },
             "رضا": {
                 password: "رضا",
@@ -2368,7 +2326,7 @@
         const ELECTRICITY_PASSWORDS = ["1", "2", "3", "صين", "قاعة", "كهرباء"];
         const MECHANICAL_PASSWORD = "1";
         const PLANS_PASSWORD = "1";
-        const ATTENDANCE_PASSWORD = "1";  // جدول الدوام
+        const table_PASSWORD = "1";  // جدول الدوام
         const MAINTENANCE_PASSWORD = "1";
         const DATABASE_PASSWORD = "1";
         const SPARE_PASSWORD = "1";
@@ -2449,56 +2407,57 @@
             }
         }
 
-        // عرض الملفات في الشبكة
-        function displayFiles(files, grid) {
-            grid.innerHTML = '';
-            
-            files.forEach(file => {
-                const fileCard = document.createElement('div');
-                fileCard.className = 'file-card';
-                
-                const fileName = file.name;
-                const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${file.path}`;
-                const fileExtension = fileName.split('.').pop().toLowerCase();
-                
-                let iconClass = 'other';
-                let iconHtml = '';
-                
-                if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(fileExtension)) {
-                    iconClass = 'image';
-                    iconHtml = '<i class="fas fa-file-image"></i>';
-                } else if (fileExtension === 'pdf') {
-                    iconClass = 'pdf';
-                    iconHtml = '<i class="fas fa-file-pdf"></i>';
-                } else if (['xlsx', 'xls', 'csv'].includes(fileExtension)) {
-                    iconClass = 'excel';
-                    iconHtml = '<i class="fas fa-file-excel"></i>';
-                } else if (['docx', 'doc'].includes(fileExtension)) {
-                    iconClass = 'word';
-                    iconHtml = '<i class="fas fa-file-word"></i>';
-                } else {
-                    iconHtml = '<i class="fas fa-file"></i>';
-                }
-                
-                fileCard.innerHTML = `
-                    <div class="file-icon ${iconClass}">${iconHtml}</div>
-                    <div class="file-name" title="${fileName}">${fileName}</div>
-                    <div class="file-actions">
-                        <button class="file-action-btn preview" onclick="previewFile('${fileUrl}', '${fileName}')">
-                            <i class="fas fa-eye"></i> معاينة
-                        </button>
-                        <button class="file-action-btn external" onclick="openExternal('${fileUrl}')">
-                            <i class="fas fa-external-link-alt"></i> فتح
-                        </button>
-                        <a href="${fileUrl}" download class="file-action-btn download">
-                            <i class="fas fa-download"></i>
-                        </a>
-                    </div>
-                `;
-                
-                grid.appendChild(fileCard);
-            });
+       // عرض الملفات في الشبكة
+function displayFiles(files, grid) {
+    grid.innerHTML = '';
+    
+    files.forEach(file => {
+        const fileCard = document.createElement('div');
+        fileCard.className = 'file-card';
+        
+        const fileName = file.name;
+        const filePath = file.path;
+        const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${filePath}`;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        
+        let iconClass = 'other';
+        let iconHtml = '';
+        
+        if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(fileExtension)) {
+            iconClass = 'image';
+            iconHtml = '<i class="fas fa-file-image"></i>';
+        } else if (fileExtension === 'pdf') {
+            iconClass = 'pdf';
+            iconHtml = '<i class="fas fa-file-pdf"></i>';
+        } else if (['xlsx', 'xls', 'csv'].includes(fileExtension)) {
+            iconClass = 'excel';
+            iconHtml = '<i class="fas fa-file-excel"></i>';
+        } else if (['docx', 'doc'].includes(fileExtension)) {
+            iconClass = 'word';
+            iconHtml = '<i class="fas fa-file-word"></i>';
+        } else {
+            iconHtml = '<i class="fas fa-file"></i>';
         }
+        
+        fileCard.innerHTML = `
+            <div class="file-icon ${iconClass}">${iconHtml}</div>
+            <div class="file-name" title="${fileName}">${fileName}</div>
+            <div class="file-actions">
+                <button class="file-action-btn preview" onclick="previewFile('${fileUrl}', '${fileName}')">
+                    <i class="fas fa-eye"></i> معاينة
+                </button>
+                <button class="file-action-btn external" onclick="openExternal('${fileUrl}')">
+                    <i class="fas fa-external-link-alt"></i> فتح
+                </button>
+                <a href="${fileUrl}" download class="file-action-btn download">
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+        `;
+        
+        grid.appendChild(fileCard);
+    });
+}
 
         // معاينة الملف داخلياً
         function previewFile(fileUrl, fileName) {
@@ -2923,8 +2882,7 @@
                 'mechanicalInterface': closeMechanicalInterface,
                 'plansModal': closePlansModal,
                 'plansInterface': closePlansInterface,
-                'attendanceModal': closeAttendanceModal,
-'attendanceInterface': closeAttendanceInterface,
+                'tableInterface': closetableInterface,
                 'maintenanceModal': closeMaintenanceModal,
                 'maintenanceInterface': closeMaintenanceInterface,
                 'databaseModal': closeDatabaseModal,
@@ -2953,22 +2911,18 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
-       // دوال جدول الدوام (بدون كلمة مرور)
-function openAttendanceModal() {
-    if (!currentUser?.permissions.includes('attendance')) {
+// دوال جدول الدوام (بدون كلمة مرور)
+function opentableModal() {
+    if (!currentUser?.permissions.includes('table')) {
         showPermissionDenied('جدول الدوام');
         return;
     }
-    // يفتح الواجهة مباشرة بدون نافذة كلمة المرور
-    document.getElementById('attendanceInterface').style.display = 'flex';
-    fetchFolderContents('attendance', 'attendanceFilesGrid');
+    document.getElementById('tableInterface').style.display = 'flex';
+    fetchFolderContents('table', 'tableFilesGrid');
 }
 
-// إلغاء دوال checkAttendancePassword و closeAttendanceModal نهائياً
-// والاكتفاء بدالة الإغلاق فقط:
-
-function closeAttendanceInterface() {
-    document.getElementById('attendanceInterface').style.display = 'none';
+function closetableInterface() {
+    document.getElementById('tableInterface').style.display = 'none';
 }
     </script>
 </body>
