@@ -1523,6 +1523,50 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-dark);
         }
+/* أنماط المجلدات */
+.folder-card {
+    background: linear-gradient(135deg, #fff9e6, #fff);
+    border: 2px dashed #f1c40f;
+    cursor: pointer;
+}
+
+.folder-card:hover {
+    border-color: #f39c12;
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.file-icon.folder {
+    color: #f1c40f;
+    font-size: 3rem;
+    animation: folderPulse 2s infinite;
+}
+
+@keyframes folderPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* مسار التنقل */
+.breadcrumb-nav {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+    direction: rtl;
+}
+
+.breadcrumb-nav button {
+    padding: 0.3rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* تحسين ظهور أسماء المجلدات العربية */
+.file-name {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 600;
+}
+
     </style>
 </head>
 <body>
@@ -2405,43 +2449,127 @@
             }, 5000);
         }
 
-        // جلب محتويات المجلد من GitHub
-        async function fetchFolderContents(folderName, gridId) {
-            const grid = document.getElementById(gridId);
-            if (!grid) return;
+        // جلب محتويات المجلد من GitHub (ملفات ومجلدات)
+async function fetchFolderContents(folderName, gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
 
-            grid.innerHTML = '<div class="loading-files"><i class="fas fa-spinner"></i><br>جاري تحميل الملفات...</div>';
+    grid.innerHTML = '<div class="loading-files"><i class="fas fa-spinner"></i><br>جاري تحميل الملفات...</div>';
 
-            try {
-                const url = `${BASE_URL}${folderName}`;
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error('فشل في تحميل الملفات');
-                }
-
-                const files = await response.json();
-                
-                if (!files || files.length === 0) {
-                    grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
-                    return;
-                }
-
-                const validFiles = files.filter(file => file.type === 'file');
-                
-                if (validFiles.length === 0) {
-                    grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
-                    return;
-                }
-
-                displayFiles(validFiles, grid);
-
-            } catch (error) {
-                console.error('Error fetching files:', error);
-                grid.innerHTML = '<div class="empty-folder">حدث خطأ في تحميل الملفات</div>';
-            }
+    try {
+        const url = `${BASE_URL}${folderName}`;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error('فشل في تحميل الملفات');
         }
 
+        const items = await response.json();
+        
+        if (!items || items.length === 0) {
+            grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
+            return;
+        }
+
+        // فصل المجلدات عن الملفات
+        const folders = items.filter(item => item.type === 'dir');
+        const files = items.filter(item => item.type === 'file');
+        
+        if (folders.length === 0 && files.length === 0) {
+            grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
+            return;
+        }
+
+// عرض المجلدات والملفات
+function displayFolderContents(folders, files, grid, currentPath) {
+    grid.innerHTML = '';
+    
+    // حفظ المسار الحالي للعودة
+    if (!window.currentFolderPath) {
+        window.currentFolderPath = [];
+    }
+    
+    // عرض المجلدات أولاً
+    folders.forEach(folder => {
+        const folderCard = document.createElement('div');
+        folderCard.className = 'file-card folder-card';
+        
+        folderCard.innerHTML = `
+            <div class="file-icon folder">
+                <i class="fas fa-folder" style="color: #f1c40f; font-size: 3rem;"></i>
+            </div>
+            <div class="file-name" title="${folder.name}">📁 ${folder.name}</div>
+            <div class="file-actions">
+                <button class="file-action-btn preview" onclick="openSubFolder('${folder.path}', '${grid.id}')">
+                    <i class="fas fa-folder-open"></i> فتح المجلد
+                </button>
+            </div>
+        `;
+        
+        grid.appendChild(folderCard);
+    });
+    
+    // ثم عرض الملفات
+    files.forEach(file => {
+        const fileCard = document.createElement('div');
+        fileCard.className = 'file-card';
+        
+        const fileName = file.name;
+        const filePath = file.path;
+        const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${filePath}`;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        
+        let iconClass = 'other';
+        let iconHtml = '';
+        
+        if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(fileExtension)) {
+            iconClass = 'image';
+            iconHtml = '<i class="fas fa-file-image"></i>';
+        } else if (fileExtension === 'pdf') {
+            iconClass = 'pdf';
+            iconHtml = '<i class="fas fa-file-pdf"></i>';
+        } else if (['xlsx', 'xls', 'csv'].includes(fileExtension)) {
+            iconClass = 'excel';
+            iconHtml = '<i class="fas fa-file-excel"></i>';
+        } else if (['docx', 'doc'].includes(fileExtension)) {
+            iconClass = 'word';
+            iconHtml = '<i class="fas fa-file-word"></i>';
+        } else {
+            iconHtml = '<i class="fas fa-file"></i>';
+        }
+        
+        fileCard.innerHTML = `
+            <div class="file-icon ${iconClass}">${iconHtml}</div>
+            <div class="file-name" title="${fileName}">${fileName}</div>
+            <div class="file-actions">
+                <button class="file-action-btn preview" onclick="previewFile('${fileUrl}', '${fileName}')">
+                    <i class="fas fa-eye"></i> معاينة
+                </button>
+                <button class="file-action-btn external" onclick="openExternal('${fileUrl}')">
+                    <i class="fas fa-external-link-alt"></i> فتح
+                </button>
+                <a href="${fileUrl}" download class="file-action-btn download">
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+        `;
+        
+        grid.appendChild(fileCard);
+    });
+    
+    // إضافة مسار التنقل (Breadcrumb)
+    addBreadcrumbNavigation(grid, currentPath);
+}
+
+
+        // عرض المجلدات أولاً ثم الملفات
+        displayFolderContents(folders, files, grid, folderName);
+
+    } catch (error) {
+        console.error('Error fetching contents:', error);
+        grid.innerHTML = '<div class="empty-folder">حدث خطأ في تحميل الملفات</div>';
+    }
+}
        // عرض الملفات في الشبكة
 function displayFiles(files, grid) {
     grid.innerHTML = '';
@@ -2959,6 +3087,100 @@ function opentableModal() {
 function closetableInterface() {
     document.getElementById('tableInterface').style.display = 'none';
 }
+
+// فتح مجلد فرعي
+function openSubFolder(folderPath, gridId) {
+    // حفظ المسار الحالي في مصفوفة للعودة
+    if (!window.folderHistory) {
+        window.folderHistory = [];
+    }
+    
+    // استخراج اسم المجلد الحالي من المسار
+    const folderName = folderPath.split('/').pop();
+    
+    // إضافة المسار الحالي للتاريخ
+    window.folderHistory.push({
+        path: folderPath.substring(0, folderPath.lastIndexOf('/')),
+        gridId: gridId,
+        name: folderName
+    });
+    
+    // تحديث المسار الحالي
+    window.currentFolderPath = folderPath.split('/').filter(p => p);
+    
+    // جلب محتويات المجلد الجديد
+    fetchFolderContents(folderPath, gridId);
+}
+
+// العودة للمجلد السابق
+function goBack(gridId) {
+    if (window.folderHistory && window.folderHistory.length > 0) {
+        const previous = window.folderHistory.pop();
+        window.currentFolderPath = previous.path.split('/').filter(p => p);
+        fetchFolderContents(previous.path, previous.gridId);
+    } else {
+        // إذا كنا في المجلد الرئيسي، نعيد تحميل المحتويات الأساسية
+        const mainFolder = gridId.replace('FilesGrid', '');
+        let mainPath = '';
+        
+        if (gridId === 'electricityFilesGrid') mainPath = 'electric_unit';
+        else if (gridId === 'mechanicalFilesGrid') mainPath = 'mechanic_unit';
+        else if (gridId === 'plansFilesGrid') mainPath = 'plans';
+        else if (gridId === 'tableFilesGrid') mainPath = 'table';
+        else if (gridId === 'spareFilesGrid') mainPath = 'spare';
+        
+        window.currentFolderPath = [];
+        fetchFolderContents(mainPath, gridId);
+    }
+}
+
+// إضافة مسار التنقل (Breadcrumb)
+function addBreadcrumbNavigation(grid, currentPath) {
+    // التحقق من وجود مسار تنقل بالفعل
+    const existingNav = document.getElementById(`nav-${grid.id}`);
+    if (existingNav) {
+        existingNav.remove();
+    }
+    
+    if (!window.currentFolderPath || window.currentFolderPath.length === 0) return;
+    
+    const navDiv = document.createElement('div');
+    navDiv.id = `nav-${grid.id}`;
+    navDiv.className = 'breadcrumb-nav';
+    navDiv.style.marginBottom = '20px';
+    navDiv.style.padding = '10px';
+    navDiv.style.background = 'var(--surface-soft)';
+    navDiv.style.borderRadius = 'var(--radius-md)';
+    navDiv.style.display = 'flex';
+    navDiv.style.alignItems = 'center';
+    navDiv.style.gap = '10px';
+    navDiv.style.flexWrap = 'wrap';
+    
+    let pathHtml = '<i class="fas fa-map-marker-alt" style="color: var(--primary);"></i> ';
+    
+    // إضافة زر العودة
+    pathHtml += `<button class="btn btn-sm btn-secondary" onclick="goBack('${grid.id}')" style="margin-left: 10px;">
+        <i class="fas fa-arrow-right"></i> رجوع
+    </button>`;
+    
+    pathHtml += '<span style="margin: 0 10px;">|</span>';
+    
+    // بناء مسار التنقل
+    let cumulativePath = '';
+    window.currentFolderPath.forEach((folder, index) => {
+        cumulativePath += (index > 0 ? '/' : '') + folder;
+        pathHtml += `<span style="color: var(--primary); font-weight: 500;">${folder}</span>`;
+        if (index < window.currentFolderPath.length - 1) {
+            pathHtml += ' <i class="fas fa-chevron-left" style="font-size: 0.8rem; margin: 0 5px;"></i> ';
+        }
+    });
+    
+    navDiv.innerHTML = pathHtml;
+    
+    // إضافة مسار التنقل قبل شبكة الملفات
+    grid.parentNode.insertBefore(navDiv, grid);
+}
+
     </script>
 </body>
 </html>
