@@ -158,10 +158,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('https://i.ibb.co/DfMCvycX/image.jpg') center/cover fixed;
+    /*background: url('https://i.ibb.co/DfMCvycX/image.jpg') center/cover fixed;*/
     overflow: hidden;
-    z-index: 1000;
-}
+    z-index: 1000;  */
+}*/
 
 .login-wrapper::before {
     content: '';
@@ -173,28 +173,32 @@
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
     z-index: -1;
-}
+}  
 
-/* الخلفية المتحركة */
+/* الخلفية المتحركة */  
+
+
+
+/*
 .login-wrapper::before {
     content: '';
     position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
-    animation: rotate 20s linear infinite;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgb(255, 255, 255) 10%, transparent 10%);
+    animation: rotate 5s linear infinite;
 }
 
 @keyframes rotate {
-    from { transform: rotate(0deg); }
+    from { transform: rotate(360deg); }
     to { transform: rotate(360deg); }
 }
 
 .login-bg-shape {
     position: absolute;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(0, 0, 0);
     border-radius: 50%;
-    animation: float 6s ease-in-out infinite;
+    animation: float 1s ease-in-out infinite;
 }
 
 .shape-1 {
@@ -229,7 +233,7 @@
 @keyframes float {
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-20px) scale(1.05); }
-}
+}  */
 
 /* بطاقة تسجيل الدخول */
 .login-card {
@@ -275,7 +279,7 @@
     border-top-color: #1a5e1a;
     border-right-color: #f1c40f;
     border-bottom-color: #3498db;
-    border-left-color: #e74c3c;
+    border-left-color: #090201;
     border-radius: 50%;
     animation: spin 10s linear infinite;
 }
@@ -856,17 +860,20 @@
             }
         }
 
-        /* تأخير ظهور البطاقات */
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.15s; }
-        .card:nth-child(3) { animation-delay: 0.2s; }
-        .card:nth-child(4) { animation-delay: 0.25s; }
-        .card:nth-child(5) { animation-delay: 0.3s; }
-        .card:nth-child(6) { animation-delay: 0.35s; }
-        .card:nth-child(7) { animation-delay: 0.4s; }
-        .card:nth-child(8) { animation-delay: 0.45s; }
-        .card:nth-child(9) { animation-delay: 0.5s; }
-        .card:nth-child(10) { animation-delay: 0.55s; }
+        /* تأخير ظهور البطاقات  delay */
+        .card:nth-child(1) { animation-delay: 0.2s; }   /*تواصل معنا*/
+        .card:nth-child(2) { animation-delay: 0.5s; }   /*تسجيل طلب صيانة*/
+        .card:nth-child(3) { animation-delay: 0.8s; }   /*قاعدة البيانات*/
+        .card:nth-child(4) { animation-delay: 1.1s; }   /*قراءات الصيانة*/
+        .card:nth-child(5) { animation-delay: 0.3s; }   /*انظمة تبريد*/
+        .card:nth-child(6) { animation-delay: 0.6s; }   /*وحدة الكهرباء*/
+        .card:nth-child(7) { animation-delay: 0.9s; }   /*وحدة الميكانيك*/
+        .card:nth-child(8) { animation-delay: 1.2s; }   /*مخططات*/
+        .card:nth-child(9) { animation-delay: 0.4s; }   /*جدول الدوام*/
+        .card:nth-child(10) { animation-delay: 0.7s; }  /*احتياط*/
+        .card:nth-child(11) { animation-delay: 1.0s; }   /*إدارة المستخدمين*/
+        
+        ذ
 
         .card::before {
             content: '';
@@ -937,8 +944,8 @@
         .card:nth-child(6) .card-icon { background: #f1c40f; } /* الكهرباء */
         .card:nth-child(7) .card-icon { background: var(--mechanical); } /* الميكانيك */
         .card:nth-child(8) .card-icon { background: var(--plans); } /* المخططات */
-        .card:nth-child(9) .card-icon { background: var(--spare); } /* احتياط */
-        .card:nth-child(10) .card-icon { background: linear-gradient(135deg, #6c5ce7, #a463f5); } /* المستخدمين */
+        .card:nth-child(9) .card-icon { background: var(--spare); } /* جدول الدوام */
+        .card:nth-child(10) .card-icon { background: linear-gradient(135deg, #6c5ce7, #a463f5); } /* احتياط */
 
         .card:hover .card-icon {
             transform: scale(1.1) rotate(10deg);
