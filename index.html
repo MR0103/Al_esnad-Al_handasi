@@ -1567,6 +1567,323 @@
     font-weight: 600;
 }
 
+/* ========== الهيدر المحسن ========== */
+.modern-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    padding: 1.2rem 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), #f1c40f, var(--primary));
+    animation: gradientMove 3s infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* القسم الأيمن - الترحيب */
+.welcome-section {
+    flex: 1;
+}
+
+.welcome-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(26, 94, 26, 0.1);
+    color: var(--primary);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(26, 94, 26, 0.2);
+}
+
+.welcome-badge i {
+    font-size: 1rem;
+}
+
+.welcome-section h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+}
+
+.welcome-section h1 span {
+    background: linear-gradient(135deg, var(--primary), #2d7d2d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.wave-emoji {
+    display: inline-block;
+    animation: wave 2s infinite;
+    transform-origin: 70% 70%;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-15deg); }
+}
+
+.department-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.department-info i {
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+/* القسم الأوسط - رمضان */
+.ramadan-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.ramadan-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, #fff9e6, #fff);
+    padding: 0.8rem 1.8rem;
+    border-radius: 60px;
+    text-decoration: none;
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+    border: 2px solid #ffd700;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ramadan-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+    transform: rotate(45deg);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.ramadan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+}
+
+.ramadan-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.ramadan-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.ramadan-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.ramadan-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #b45309;
+    line-height: 1.3;
+}
+
+.ramadan-subtitle {
+    font-size: 0.8rem;
+    color: #92400e;
+    opacity: 0.8;
+}
+
+/* القسم الأيسر - الوقت والدعم */
+.header-actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.time-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.time-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    animation: pulse 2s infinite;
+}
+
+.time-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.time {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary);
+    direction: ltr;
+    line-height: 1.2;
+}
+
+.date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.support-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    padding: 0.4rem 1.2rem 0.4rem 0.8rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+
+.support-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+}
+
+.support-icon-new {
+    width: 45px;
+    height: 45px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #25D366;
+    font-size: 1.8rem;
+    animation: whatsappPulse 2s infinite;
+}
+
+@keyframes whatsappPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.support-text-new {
+    display: flex;
+    flex-direction: column;
+    color: rgb(255, 255, 255);
+}
+
+.support-text-new span {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.support-text-new small {
+    font-size: 0.7rem;
+    opacity: 0.9;
+}
+
+/* تجاوب مع الشاشات الصغيرة */
+@media (max-width: 1200px) {
+    .modern-header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 1.5rem;
+    }
+    
+    .welcome-section, .ramadan-section, .header-actions {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .header-actions {
+        justify-content: center;
+    }
+    
+    .welcome-badge {
+        margin: 0 auto 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .time-card, .support-card {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .welcome-section h1 {
+        font-size: 1.8rem;
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -1774,33 +2091,60 @@
         <div class="main-content">
             <!-- قسم الرئيسية -->
             <div id="dashboardSection">
-                <div class="header">
-                    <div class="welcome-section">
-                        <h1>مرحباً، <span id="greetingName">مستخدم</span> 🌙</h1>
-                        <div class="department-info">برنامج الإسناد الهندسي</div>
-                    </div>
+    <div class="header modern-header">
+        <!-- القسم الأيمن: الترحيب -->
+        <div class="welcome-section">
+            <div class="welcome-badge">
+                <i class="fas fa-user-circle"></i>
+                <span>مرحبا بك عزيزي</span>
+            </div>
+            <h1 class="gradient-text">
+                <span id="greetingName">مستخدم</span> 
+                <span class="wave-emoji">🌙</span>
+            </h1>
+            <div class="department-info">
+                <i class="fas fa-hard-hat"></i>
+                برنامج الإسناد الهندسي
+            </div>
+        </div>
 
-                    <a href="#" class="pulsating-ad">
-                        <div class="icon-image" style="border-radius: 50%; width: 70px; height: 70px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                            <img src="https://i.ibb.co/Qv1zpt5N/0.png" alt="رمضان" style="width: 100%; height: 100%; object-fit: contain;">
-                        </div>
-                        <div class="icon-title" style="color: #0c8006;">رمضان كريم</div>
-                    </a>
-
-                    <div class="header-actions">
-                        <div class="datetime-info">
-                            <div class="time" id="currentTime"></div>
-                            <div class="date" id="currentDate"></div>
-                        </div>
-
-                        <a href="https://wa.me/9647735559707" target="_blank" class="support-icon-wrapper" style="border: none; background: none; box-shadow: none;">
-                            <div class="support-icon">
-                                <i class="fab fa-whatsapp"></i>
-                            </div>
-                            <div class="support-text">الدعم</div>
-                        </a>
-                    </div>
+        <!-- القسم الأوسط: رمضان -->
+        <div class="ramadan-section">
+            <a href="#" class="ramadan-card">
+                <div class="ramadan-icon">
+                    <img src="https://i.ibb.co/Qv1zpt5N/0.png" alt="رمضان">
                 </div>
+                <div class="ramadan-text">
+                    <span class="ramadan-title">رمضان كريم</span>
+                    <span class="ramadan-subtitle">🌙 1447 هـ</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- القسم الأيسر: الوقت والدعم -->
+        <div class="header-actions">
+            <div class="time-card">
+                <div class="time-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="time-info">
+                    <div class="time" id="currentTime"></div>
+                    <div class="date" id="currentDate"></div>
+                </div>
+            </div>
+
+            <a href="https://wa.me/9647735559707" target="_blank" class="support-card">
+                <div class="support-icon-new">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="support-text-new">
+                    <span>الدعم الفني</span>
+                    <small>للمساعدة 😊</small>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>  
 
                 <!-- بطاقات الرئيسية -->
                 <div class="dashboard-grid">
