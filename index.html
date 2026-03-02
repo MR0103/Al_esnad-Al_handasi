@@ -143,13 +143,13 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 /* ========== صفحة تسجيل الدخول المتطورة ========== */
+body {
+    background: url('https://i.ibb.co/DfMCvycX/image.jpg') center/cover fixed;
+    min-height: 100vh;
+    position: relative;
+}
 
- body {
-            background: url('https://i.ibb.co/DfMCvycX/image.jpg') center/cover fixed;
-            min-height: 100vh;
-            position: relative; }
-
-.login-wrapper {
+body::before {
     position: fixed;
     top: 0;
     left: 0;
@@ -158,10 +158,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /*background: url('https://i.ibb.co/DfMCvycX/image.jpg') center/cover fixed;*/
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+.login-wrapper {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    z-index: 1000;  */
-}*/
+    z-index: 1000;  
+}
 
 .login-wrapper::before {
     content: '';
@@ -872,8 +884,6 @@
         .card:nth-child(9) { animation-delay: 0.4s; }   /*جدول الدوام*/
         .card:nth-child(10) { animation-delay: 0.7s; }  /*احتياط*/
         .card:nth-child(11) { animation-delay: 1.0s; }   /*إدارة المستخدمين*/
-        
-        ذ
 
         .card::before {
             content: '';
@@ -2459,65 +2469,63 @@
                 <p style="font-size: 0.8rem; opacity: 0.7;">Design by MURTADA AL_JANABY</p>
             </div>
         </div>
-
         <!-- ========== المحتوى الرئيسي ========== -->
         <div class="main-content">
             <!-- قسم الرئيسية -->
             <div id="dashboardSection">
-    <div class="header modern-header">
-        <!-- القسم الأيمن: الترحيب -->
-        <div class="welcome-section">
-            <div class="welcome-badge">
-                <i class="fas fa-user-circle"></i>
-                <span>مرحبا بك عزيزي</span>
-            </div>
-            <h1 class="gradient-text">
-                <span id="greetingName">مستخدم</span> 
-                <span class="wave-emoji">🌙</span>
-            </h1>
-            <div class="department-info">
-                <i class="fas fa-hard-hat"></i>
-                برنامج الإسناد الهندسي
-            </div>
-        </div>
+                <div class="header modern-header">
+                    <!-- القسم الأيمن: الترحيب -->
+                    <div class="welcome-section">
+                        <div class="welcome-badge">
+                            <i class="fas fa-user-circle"></i>
+                            <span>مرحبا بك عزيزي</span>
+                        </div>
+                        <h1 class="gradient-text">
+                            <span id="greetingName">مستخدم</span> 
+                            <span class="wave-emoji">🌙</span>
+                        </h1>
+                        <div class="department-info">
+                            <i class="fas fa-hard-hat"></i>
+                            برنامج الإسناد الهندسي
+                        </div>
+                    </div>
 
-        <!-- القسم الأوسط: رمضان -->
-        <div class="ramadan-section">
-            <a href="#" class="ramadan-card">
-                <div class="ramadan-icon">
-                    <img src="https://i.ibb.co/Qv1zpt5N/0.png" alt="رمضان">
-                </div>
-                <div class="ramadan-text">
-                    <span class="ramadan-title">رمضان كريم</span>
-                    <span class="ramadan-subtitle">🌙 1447 هـ</span>
-                </div>
-            </a>
-        </div>
+                    <!-- القسم الأوسط: رمضان -->
+                    <div class="ramadan-section">
+                        <a href="#" class="ramadan-card">
+                            <div class="ramadan-icon">
+                                <img src="https://i.ibb.co/Qv1zpt5N/0.png" alt="رمضان">
+                            </div>
+                            <div class="ramadan-text">
+                                <span class="ramadan-title">رمضان كريم</span>
+                                <span class="ramadan-subtitle">🌙 1447 هـ</span>
+                            </div>
+                        </a>
+                    </div>
 
-        <!-- القسم الأيسر: الوقت والدعم -->
-        <div class="header-actions">
-            <div class="time-card">
-                <div class="time-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="time-info">
-                    <div class="time" id="currentTime"></div>
-                    <div class="date" id="currentDate"></div>
-                </div>
-            </div>
+                    <!-- القسم الأيسر: الوقت والدعم -->
+                    <div class="header-actions">
+                        <div class="time-card">
+                            <div class="time-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="time-info">
+                                <div class="time" id="currentTime"></div>
+                                <div class="date" id="currentDate"></div>
+                            </div>
+                        </div>
 
-            <a href="https://wa.me/9647735559707" target="_blank" class="support-card">
-                <div class="support-icon-new">
-                    <i class="fab fa-whatsapp"></i>
+                        <a href="https://wa.me/9647735559707" target="_blank" class="support-card">
+                            <div class="support-icon-new">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="support-text-new">
+                                <span>الدعم الفني</span>
+                                <small>تواصل للمساعدة 😊</small>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="support-text-new">
-                    <span>الدعم الفني</span>
-                    <small>تواصل للمساعدة 😊</small>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>  
 
                 <!-- بطاقات الرئيسية -->
                 <div class="dashboard-grid">
@@ -2570,10 +2578,10 @@
                     </div>
 
                     <div class="card" onclick="opentableModal()">
-    <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
-    <div class="card-title">جدول الدوام</div>
-    <div class="card-description">عرض جداول الدوام والمواعيد</div>
-</div>
+                        <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="card-title">جدول الدوام</div>
+                        <div class="card-description">عرض جداول الدوام والمواعيد</div>
+                    </div>
 
                     <div class="card" onclick="openSpareModal()">
                         <div class="card-icon"><i class="fas fa-box"></i></div>
@@ -2586,19 +2594,26 @@
                         <div class="card-title">إدارة المستخدمين</div>
                         <div class="card-description">إضافة وإدارة المستخدمين والصلاحيات</div>
                     </div>
-                </div>
-            </div>
-
+                </div> <!-- نهاية dashboard-grid -->
+            </div> <!-- نهاية dashboardSection -->
             <!-- قسم إدارة المستخدمين -->
             <div id="usersSection" style="display: none;">
-                <div class="header">
+                <div class="header" style="display: flex; justify-content: space-between; align-items: center; position: relative;">
                     <div class="welcome-section">
                         <h1>إدارة المستخدمين 👥</h1>
                         <div class="department-info">إضافة وتعديل مستخدمي النظام</div>
                     </div>
-                    <button class="btn btn-primary" onclick="openAddUserModal()">
-                        <i class="fas fa-user-plus"></i> إضافة مستخدم
-                    </button>
+                    
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="btn btn-primary" onclick="openAddUserModal()">
+                            <i class="fas fa-user-plus"></i> إضافة مستخدم
+                        </button>
+                        
+                        <!-- زر الإغلاق (العودة للرئيسية) -->
+                        <button class="close-btn" onclick="showDashboard()" style="background: #f1f5f9; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; margin-right: 10px;" title="العودة للرئيسية">
+                            <i class="fas fa-times" style="color: #ef4444; font-size: 1.8rem;"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="users-table">
@@ -2614,9 +2629,10 @@
                         <tbody id="usersTableBody"></tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div> <!-- نهاية usersSection -->
+        </div> <!-- نهاية main-content -->
+    </div> <!-- نهاية app-container -->
+
 
     <!-- ========== جميع النوافذ المنبثقة (بدون تغيير في المحتوى) ========== -->
     <!-- نافذة القراءات -->
@@ -2724,23 +2740,6 @@
         </div>
     </div>
 
-    <!-- نافذة قاعدة البيانات -->
-    <div id="databaseModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">قاعدة البيانات</h3>
-                <button class="close-btn" onclick="closeDatabaseModal()">×</button>
-            </div>
-            <p>يرجى إدخال رمز الدخول:</p>
-            <input type="password" id="databasePassword" class="form-input" placeholder="رمز الدخول">
-            <div id="databaseError" class="error-message">رمز الدخول غير صحيح!</div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeDatabaseModal()">إلغاء</button>
-                <button class="btn btn-primary" onclick="checkDatabasePassword()">تأكيد</button>
-            </div>
-        </div>
-    </div>
-
     <!-- نافذة احتياط (Spare) -->
     <div id="spareModal" class="modal">
         <div class="modal-content">
@@ -2818,7 +2817,7 @@
                 </a>
                 <a href="http://10.15.16.241/control/index.html" class="icon-item" target="_blank">
                     <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
-                    <div class="icon-title">روضة القمر</div>
+                    <div class="icon-title">روضة الجود</div>
                 </a>
                 <a href="http://10.15.16.246/control/index.html" class="icon-item" target="_blank">
                     <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
@@ -2955,25 +2954,36 @@
         </div>
     </div>
 
-    <!-- نافذة قاعدة البيانات (الواجهة الرئيسية) -->
-    <div id="databaseInterface" class="modal" style="display: none;">
-        <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header">
-                <h3 class="modal-title">قاعدة البيانات</h3>
-                <button class="close-btn" onclick="closeDatabaseInterface()">×</button>
-            </div>
-            <div class="icons-grid">
-                <a href="https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit" class="icon-item" target="_blank">
-                    <div class="icon-image"><img src="https://i.ibb.co/Psg9TDxy/images.png" alt=""></div>
-                    <div class="icon-title">جدول البيانات</div>
-                </a>
-            </div>
-            <div class="modal-actions" style="justify-content: center;">
-                <button class="btn btn-secondary" onclick="closeDatabaseInterface()">رجوع</button>
-            </div>
+   <!-- نافذة قاعدة البيانات (الواجهة الرئيسية) -->
+<div id="databaseInterface" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3 class="modal-title">قاعدة البيانات</h3>
+            <button class="close-btn" onclick="closeDatabaseInterface()" style="background: #f1f5f9; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; margin-right: 10px;" title="العودة للرئيسية">
+                            <i class="fas fa-times" style="color: #ef4444; font-size: 1.8rem;"></i>
+                        </button>
+        </div>
+        
+        <!-- أضف هذا القسم المفقود -->
+        <div class="icons-grid">
+            <!-- النافذة الأولى -->
+            <a href="https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit?gid=1402872523#gid=1402872523" class="icon-item" target="_blank">
+                <div class="icon-image"><img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Google_Sheets_logo_%282014-2020%29.svg" alt="شعار كوكل شيت"></div>
+                <div class="icon-title">المعملجي</div>
+            </a>
+            
+            <!-- النافذة الثانية -->
+            <a href="https://docs.google.com/spreadsheets/d/196P_IpbbBGUDj1MsLPEaT7C-ulLe2YrEfER8-llRgyU/edit?gid=1402872523#gid=1402872523" class="icon-item" target="_blank">
+                <div class="icon-image"><img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Google_Sheets_logo_%282014-2020%29.svg" alt="شعار كوكل شيت"></div>
+                <div class="icon-title">الحر</div>
+            </a>
+        </div>
+        
+        <div class="modal-actions" style="justify-content: center;">
+            <button class="btn btn-secondary" onclick="closeDatabaseInterface()">رجوع</button>
         </div>
     </div>
-
+</div>
     <!-- نافذة احتياط (Spare) الواجهة الرئيسية -->
     <div id="spareInterface" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 800px;">
@@ -3098,7 +3108,7 @@
                 name: "مسؤول الشعبة", 
                 permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare" , "table"]
             },
-            "2001": { 
+            "01": { 
                 password: "", 
                 name: "مرتضى عبد الكاظم", 
                 permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare" , "table"] 
@@ -3130,15 +3140,11 @@
         };
 
         // رموز الدخول للنوافذ
-        const READINGS_PASSWORD = "1";
-        const COOLING_PASSWORD = "1";
+                const READINGS_PASSWORD = "1";
         const ELECTRICITY_PASSWORDS = ["1", "2", "3", "صين", "قاعة", "كهرباء"];
-        const MECHANICAL_PASSWORD = "1";
-        const PLANS_PASSWORD = "1";
-        const table_PASSWORD = "1";  // جدول الدوام
-        const MAINTENANCE_PASSWORD = "1";
-        const DATABASE_PASSWORD = "1";
-        const SPARE_PASSWORD = "1";
+        const TABLE_PASSWORD = "1";
+        
+        // يمكن إزالة الثوابت غير المستخدمة أو استخدامها في دوال التحقق
 
         // إعدادات GitHub
         const GITHUB_USERNAME = 'mr0103';
@@ -3179,7 +3185,7 @@
             }, 5000);
         }
 
-        // جلب محتويات المجلد من GitHub (ملفات ومجلدات)
+        // جلب محتويات المجلد من GitHub (ملفات ومجلدات)// جلب محتويات المجلد من GitHub (ملفات ومجلدات)
 async function fetchFolderContents(folderName, gridId) {
     const grid = document.getElementById(gridId);
     if (!grid) return;
@@ -3209,8 +3215,17 @@ async function fetchFolderContents(folderName, gridId) {
             grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
             return;
         }
+        
+        // استدعاء الدالة العامة لعرض المحتويات
+        displayFolderContents(folders, files, grid, folderName);
 
-// عرض المجلدات والملفات
+    } catch (error) {
+        console.error('Error fetching contents:', error);
+        grid.innerHTML = '<div class="empty-folder">حدث خطأ في تحميل الملفات</div>';
+    }
+}
+
+// دالة عرض المجلدات والملفات - معرفة خارج fetchFolderContents
 function displayFolderContents(folders, files, grid, currentPath) {
     grid.innerHTML = '';
     
@@ -3290,68 +3305,6 @@ function displayFolderContents(folders, files, grid, currentPath) {
     // إضافة مسار التنقل (Breadcrumb)
     addBreadcrumbNavigation(grid, currentPath);
 }
-
-
-        // عرض المجلدات أولاً ثم الملفات
-        displayFolderContents(folders, files, grid, folderName);
-
-    } catch (error) {
-        console.error('Error fetching contents:', error);
-        grid.innerHTML = '<div class="empty-folder">حدث خطأ في تحميل الملفات</div>';
-    }
-}
-       // عرض الملفات في الشبكة
-function displayFiles(files, grid) {
-    grid.innerHTML = '';
-    
-    files.forEach(file => {
-        const fileCard = document.createElement('div');
-        fileCard.className = 'file-card';
-        
-        const fileName = file.name;
-        const filePath = file.path;
-        const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${filePath}`;
-        const fileExtension = fileName.split('.').pop().toLowerCase();
-        
-        let iconClass = 'other';
-        let iconHtml = '';
-        
-        if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'].includes(fileExtension)) {
-            iconClass = 'image';
-            iconHtml = '<i class="fas fa-file-image"></i>';
-        } else if (fileExtension === 'pdf') {
-            iconClass = 'pdf';
-            iconHtml = '<i class="fas fa-file-pdf"></i>';
-        } else if (['xlsx', 'xls', 'csv'].includes(fileExtension)) {
-            iconClass = 'excel';
-            iconHtml = '<i class="fas fa-file-excel"></i>';
-        } else if (['docx', 'doc'].includes(fileExtension)) {
-            iconClass = 'word';
-            iconHtml = '<i class="fas fa-file-word"></i>';
-        } else {
-            iconHtml = '<i class="fas fa-file"></i>';
-        }
-        
-        fileCard.innerHTML = `
-            <div class="file-icon ${iconClass}">${iconHtml}</div>
-            <div class="file-name" title="${fileName}">${fileName}</div>
-            <div class="file-actions">
-                <button class="file-action-btn preview" onclick="previewFile('${fileUrl}', '${fileName}')">
-                    <i class="fas fa-eye"></i> معاينة
-                </button>
-                <button class="file-action-btn external" onclick="openExternal('${fileUrl}')">
-                    <i class="fas fa-external-link-alt"></i> فتح
-                </button>
-                <a href="${fileUrl}" download class="file-action-btn download">
-                    <i class="fas fa-download"></i>
-                </a>
-            </div>
-        `;
-        
-        grid.appendChild(fileCard);
-    });
-}
-
         // معاينة الملف داخلياً
         function previewFile(fileUrl, fileName) {
             if (viewMode === 'external') {
@@ -3601,8 +3554,9 @@ function displayFiles(files, grid) {
         }
 
         function checkReadingsPassword() {
-            closeReadingsModal();
-        }
+    closeReadingsModal(); // تغلق النافذة مباشرة بدون تحقق
+}
+        
 
         // دوال التبريد المركزي
         function openCoolingModal() {
@@ -3732,14 +3686,13 @@ function displayFiles(files, grid) {
             document.getElementById('maintenanceInterface').style.display = 'none';
         }
 
-        // دوال قاعدة البيانات
         function openDatabaseModal() {
-            if (!currentUser?.permissions.includes('database')) {
-                showPermissionDenied('قاعدة البيانات');
-                return;
-            }
-            window.open('https://docs.google.com/spreadsheets/d/1wae9YwHhzyJ3UsXsKycfhRXriBCsv2H5Am6ydH4bid0/edit', '_blank');
-        }
+    if (!currentUser?.permissions.includes('database')) {
+        showPermissionDenied('قاعدة البيانات');
+        return;
+    }
+    document.getElementById('databaseInterface').style.display = 'flex'; // هذا سيفتح النافذة
+}
 
         function closeDatabaseModal() {
             document.getElementById('databaseModal').style.display = 'none';
@@ -3881,6 +3834,7 @@ function goBack(gridId) {
 }
 
 // إضافة مسار التنقل (Breadcrumb)
+
 function addBreadcrumbNavigation(grid, currentPath) {
     // التحقق من وجود مسار تنقل بالفعل
     const existingNav = document.getElementById(`nav-${grid.id}`);
