@@ -2348,7 +2348,7 @@ input[type="password"]::-webkit-reveal-button {
                 </a>
                 
                 <a href="#" class="nav-item" onclick="openMechanicalModal()">
-                    <i class="fas fa-cogs"></i> <span>وحدة الميكانيك</span>
+                    <i class="fas fa-cogs"></i> <span>اعمال</span>
                 </a>
                 
                 <a href="#" class="nav-item" onclick="openPlansModal()">
@@ -2482,8 +2482,8 @@ input[type="password"]::-webkit-reveal-button {
                     
                     <div class="card" onclick="openMechanicalModal()">
                         <div class="card-icon"><i class="fas fa-cogs"></i></div>
-                        <div class="card-title">وحدة الميكانيك</div>
-                        <div class="card-description">بيانات وأنظمة وحدة الميكانيك</div>
+                        <div class="card-title">اعمال</div>
+                        <div class="card-description">بيانات اعمال الشعبة</div>
                     </div>
                     
                     <div class="card" onclick="openPlansModal()">
@@ -2790,7 +2790,7 @@ input[type="password"]::-webkit-reveal-button {
     <div id="mechanicalInterface" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h3 class="modal-title">وحدة الميكانيك🛠️⚙️</h3>
+                <h3 class="modal-title">اعمال</h3>
 
                 
 <button class="close-btn" onclick="closeMechanicalInterface()">
@@ -2799,7 +2799,7 @@ input[type="password"]::-webkit-reveal-button {
             </div>
 
             <div id="mechanicalFiles" class="files-section">
-                <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في وحدة الميكانيك</h4>
+                <h4><i class="fas fa-folder-open"></i>الملفات المتاحة في نافذة الاعمال</h4>
                 <div id="mechanicalFilesGrid" class="files-grid"></div>
             </div>
 
@@ -3016,7 +3016,7 @@ input[type="password"]::-webkit-reveal-button {
             "Mu": { 
                 password: "", 
                 name: "مصطفى عبدالرضا", 
-                permissions: ["electricity", "cooling"] 
+                permissions: [ "cooling"] 
             },
             "علي سعد": { 
                 password: "999888777", 
@@ -3539,7 +3539,7 @@ function displayFolderContents(folders, files, grid, currentPath) {
         // دوال وحدة الميكانيك
         function openMechanicalModal() {
             if (!currentUser?.permissions.includes('mechanical')) {
-                showPermissionDenied('وحدة الميكانيك');
+                showPermissionDenied('اعمال');
                 return;
             }
             document.getElementById('mechanicalInterface').style.display = 'flex';
