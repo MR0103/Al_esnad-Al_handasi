@@ -54,8 +54,8 @@
             --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             
             /* ألوان النوافذ الجديدة (محسنة) */
-            --mechanical: #e67e22;
-            --mechanical-soft: #fef2e6;
+            --work: #e67e22;
+            --work-soft: #fef2e6;
             --plans: #3498db;
             --plans-soft: #ebf5ff;
             --database: #9b59b6;
@@ -848,7 +848,7 @@ body::before {
         .card:nth-child(4) .card-icon { background: var(--primary-gradient); } /* القراءات */
         .card:nth-child(5) .card-icon { background: linear-gradient(135deg, #00b4d8, #0077b6); } /* التبريد */
         .card:nth-child(6) .card-icon { background: #f1c40f; } /* الكهرباء */
-        .card:nth-child(7) .card-icon { background: var(--mechanical); } /* الميكانيك */
+        .card:nth-child(7) .card-icon { background: var(--work); } /* الاعمال */
         .card:nth-child(8) .card-icon { background: var(--plans); } /* المخططات */
         .card:nth-child(9) .card-icon { background: var(--spare); } /* جدول الدوام */
         .card:nth-child(10) .card-icon { background: linear-gradient(135deg, #6c5ce7, #a463f5); } /* احتياط */
@@ -2185,12 +2185,12 @@ input[type="password"]::-webkit-reveal-button {
                         });
                     }
                     
-                    const mechanicalInput = document.getElementById('mechanicalPassword');
-                    if (mechanicalInput) {
-                        mechanicalInput.addEventListener('keydown', function(e) {
+                    const workInput = document.getElementById('workPassword');
+                    if (workInput) {
+                        workInput.addEventListener('keydown', function(e) {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
-                                checkMechanicalPassword();
+                                checkWorkPassword();
                             }
                         });
                     }
@@ -2347,7 +2347,7 @@ input[type="password"]::-webkit-reveal-button {
                     <i class="fas fa-bolt"></i> <span>وحدة الكهرباء</span>
                 </a>
                 
-                <a href="#" class="nav-item" onclick="openMechanicalModal()">
+                <a href="#" class="nav-item" onclick="openWorkModal()">
                     <i class="fas fa-cogs"></i> <span>اعمال</span>
                 </a>
                 
@@ -2480,7 +2480,7 @@ input[type="password"]::-webkit-reveal-button {
                         <div class="card-description">بيانات وحدة الكهرباء</div>
                     </div>
                     
-                    <div class="card" onclick="openMechanicalModal()">
+                    <div class="card" onclick="openWorkModal()">
                         <div class="card-icon"><i class="fas fa-cogs"></i></div>
                         <div class="card-title">اعمال</div>
                         <div class="card-description">بيانات اعمال الشعبة</div>
@@ -2606,18 +2606,18 @@ input[type="password"]::-webkit-reveal-button {
     </div>
 
     <!-- نافذة وحدة الميكانيك -->
-    <div id="mechanicalModal" class="modal">
+    <div id="workModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">وحدة الميكانيك</h3>
-                <button class="close-btn" onclick="closeMechanicalModal()">×</button>
+                <button class="close-btn" onclick="closeWorkModal()">×</button>
             </div>
             <p>يرجى إدخال رمز الدخول:</p>
-            <input type="password" id="mechanicalPassword" class="form-input" placeholder="رمز الدخول">
-            <div id="mechanicalError" class="error-message">رمز الدخول غير صحيح!</div>
+            <input type="password" id="workPassword" class="form-input" placeholder="رمز الدخول">
+            <div id="workError" class="error-message">رمز الدخول غير صحيح!</div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeMechanicalModal()">إلغاء</button>
-                <button class="btn btn-primary" onclick="checkMechanicalPassword()">تأكيد</button>
+                <button class="btn btn-secondary" onclick="closeWorkModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="checkWorkPassword()">تأكيد</button>
             </div>
         </div>
     </div>
@@ -2787,25 +2787,25 @@ input[type="password"]::-webkit-reveal-button {
     </div>
 
 
-    <!-- نافذة وحدة الميكانيك (الواجهة الرئيسية) -->
-    <div id="mechanicalInterface" class="modal" style="display: none;">
+    <!-- نافذة  الاعمال (الواجهة الرئيسية) -->
+    <div id="workInterface" class="modal" style="display: none;">
         <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
                 <h3 class="modal-title">اعمال</h3>
 
                 
-<button class="close-btn" onclick="closeMechanicalInterface()">
+<button class="close-btn" onclick="closeWorkInterface()">
     <i class="fas fa-times-circle" style="color: #ef4444; font-size: 1.8rem;"></i>
 </button>    
             </div>
 
-            <div id="mechanicalFiles" class="files-section">
+            <div id="workFiles" class="files-section">
                 <h4><i class="fas fa-folder-open"></i>الملفات المتاحة في نافذة الاعمال</h4>
-                <div id="mechanicalFilesGrid" class="files-grid"></div>
+                <div id="workFilesGrid" class="files-grid"></div>
             </div>
 
             <div class="modal-actions" style="justify-content: center;">
-                <button class="btn btn-secondary" onclick="closeMechanicalInterface()">رجوع</button>
+                <button class="btn btn-secondary" onclick="closeWorkInterface()">رجوع</button>
             </div>
         </div>
     </div>
@@ -2957,7 +2957,7 @@ input[type="password"]::-webkit-reveal-button {
                         <input type="checkbox" id="permElectricity" value="electricity"> <span>وحدة الكهرباء</span>
                     </label>
                     <label class="checkbox-item">
-                        <input type="checkbox" id="permMechanical" value="mechanical"> <span>وحدة الميكانيك</span>
+                        <input type="checkbox" id="permWork" value="work"> <span>وحدة الميكانيك</span>
                     </label>
                     <label class="checkbox-item">
                         <input type="checkbox" id="permPlans" value="plans"> <span>مخططات المجمع</span>
@@ -3012,7 +3012,7 @@ input[type="password"]::-webkit-reveal-button {
             "admin": { 
     password: "78672062", 
     name: "مدير النظام", 
-    permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare", "table"] 
+    permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare", "table"] 
 },
             "Mu": { 
                 password: "", 
@@ -3022,42 +3022,42 @@ input[type="password"]::-webkit-reveal-button {
             "علي سعد": { 
                 password: "999888777", 
                 name: "مسؤول الشعبة", 
-                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare" , "table"]
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table"]
             },
             "01": { 
                 password: "", 
                 name: "مرتضى عبد الكاظم", 
-                permissions: ["readings", "cooling", "electricity", "users", "mechanical", "plans", "maintenance", "database", "spare" , "table"] 
+                permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare" , "table"] 
              },
             "رضا": {
                 password: "رضا",
                 name: "مهندس رضا",
-                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare"] 
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare"] 
             } ,
             
             "علي يسري": {
                 password: "1997",
                 name: "م علي يسري",
-                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare"] 
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare"] 
             },
             
             "كهرباء": {
                 password: "ats",
                 name: "وحدة الكهرباء",
-                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database","table"] 
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database","table"] 
             }
             ,
             
             "hamza": {
                 password: "2001",
                 name: "eng.hamza",
-                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare", "table"] 
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare", "table"] 
             }
             ,
             "ادارية": {
                 password: "95533",
                 name: "الذاتية",
-                permissions: ["readings", "cooling", "electricity", "mechanical", "plans", "maintenance", "database", "spare" , "table"]
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table"]
             }
         };
 
@@ -3294,10 +3294,14 @@ function displayFolderContents(folders, files, grid, currentPath) {
             document.getElementById('userRole').textContent = currentUser.username === 'admin' ? 'مدير النظام' : 'مستخدم';
         }
 
-        function logout() {
+     function logout() {
     currentUser = null;
+    
+    // مسح بيانات الجلسة المحفوظة
+    localStorage.removeItem('engineeringLogin');
+    
     document.getElementById('appContainer').style.display = 'none';
-    document.getElementById('loginPage').style.display = 'flex'; // تغيير من block إلى flex
+    document.getElementById('loginPage').style.display = 'flex';
     
     // إعادة تعيين الحقول
     document.getElementById('loginUsername').value = '';
@@ -3425,7 +3429,7 @@ function displayFolderContents(folders, files, grid, currentPath) {
             if (document.getElementById('permReadings').checked) permissions.push('readings');
             if (document.getElementById('permCooling').checked) permissions.push('cooling');
             if (document.getElementById('permElectricity').checked) permissions.push('electricity');
-            if (document.getElementById('permMechanical').checked) permissions.push('mechanical');
+            if (document.getElementById('permWork').checked) permissions.push('work');
             if (document.getElementById('permPlans').checked) permissions.push('plans');
             if (document.getElementById('permMaintenance').checked) permissions.push('maintenance');
             if (document.getElementById('permDatabase').checked) permissions.push('database');
@@ -3537,28 +3541,28 @@ function displayFolderContents(folders, files, grid, currentPath) {
             document.getElementById('electricityInterface').style.display = 'none';
         }
 
-        // دوال وحدة الميكانيك
-        function openMechanicalModal() {
-            if (!currentUser?.permissions.includes('mechanical')) {
+        // دوال نافذة الاعمال 
+        function openWorkModal() {
+            if (!currentUser?.permissions.includes('work')) {
                 showPermissionDenied('اعمال');
                 return;
             }
-            document.getElementById('mechanicalInterface').style.display = 'flex';
-            fetchFolderContents('mechanic_unit', 'mechanicalFilesGrid');
+            document.getElementById('workInterface').style.display = 'flex';
+            fetchFolderContents('work', 'workFilesGrid');
         }
 
-        function closeMechanicalModal() {
-            document.getElementById('mechanicalModal').style.display = 'none';
-            document.getElementById('mechanicalError').style.display = 'none';
-            document.getElementById('mechanicalPassword').value = '';
+        function closeWorkModal() {
+            document.getElementById('workModal').style.display = 'none';
+            document.getElementById('workError').style.display = 'none';
+            document.getElementById('workPassword').value = '';
         }
 
-        function checkMechanicalPassword() {
-            closeMechanicalModal();
+        function checkWorkPassword() {
+            closeWorkModal();
         }
 
-        function closeMechanicalInterface() {
-            document.getElementById('mechanicalInterface').style.display = 'none';
+        function closeWorkInterface() {
+            document.getElementById('workInterface').style.display = 'none';
         }
 
         // دوال مخططات المجمع
@@ -3662,8 +3666,8 @@ function displayFolderContents(folders, files, grid, currentPath) {
                 'coolingInterface': closeCoolingInterface,
                 'electricityModal': closeElectricityModal,
                 'electricityInterface': closeElectricityInterface,
-                'mechanicalModal': closeMechanicalModal,
-                'mechanicalInterface': closeMechanicalInterface,
+                'workModal': closeWorkModal,
+                'workInterface': closeWorkInterface,
                 'plansModal': closePlansModal,
                 'plansInterface': closePlansInterface,
                 'tableInterface': closetableInterface,
@@ -3685,11 +3689,14 @@ function displayFolderContents(folders, files, grid, currentPath) {
             }
         }
 
-        // جعل المؤشر يذهب تلقائياً إلى حقل اسم المستخدم
-        window.onload = function() {
-            document.getElementById('loginUsername').focus();
-            loadViewMode();
-        };
+       // جعل المؤشر يذهب تلقائياً إلى حقل اسم المستخدم
+window.onload = function() {
+    document.getElementById('loginUsername').focus();
+    loadViewMode();
+    
+    // التحقق من وجود جلسة سابقة
+    checkSavedSession();
+};
 
         // التشغيل الأولي
         setInterval(updateDateTime, 1000);
@@ -3745,7 +3752,7 @@ function goBack(gridId) {
         let mainPath = '';
         
         if (gridId === 'electricityFilesGrid') mainPath = 'electric_unit';
-        else if (gridId === 'mechanicalFilesGrid') mainPath = 'mechanic_unit';
+        else if (gridId === 'workFilesGrid') mainPath = 'work';
         else if (gridId === 'plansFilesGrid') mainPath = 'plans';
         else if (gridId === 'tableFilesGrid') mainPath = 'table';
         else if (gridId === 'spareFilesGrid') mainPath = 'spare';
@@ -3827,6 +3834,19 @@ function login() {
     if (users[username] && users[username].password === password) {
         currentUser = { username: username, ...users[username] };
         
+        // حفظ بيانات المستخدم مع وقت الدخول
+        const loginData = {
+            user: currentUser,
+            timestamp: new Date().getTime(),
+            expiryTime: 15 * 60 * 1000 // 20 دقيقة بالميلي ثانية
+
+            /*30 دقيقة: 30 * 60 * 1000                                                          
+ساعة واحدة: 60 * 60 * 1000    
+يوم كامل: 24 * 60 * 60 * 1000 
+*/
+        };
+        localStorage.setItem('engineeringLogin', JSON.stringify(loginData));
+        
         document.getElementById('loginPage').style.display = 'none';
         document.getElementById('appContainer').style.display = 'block';
         
@@ -3834,10 +3854,183 @@ function login() {
         errorDiv.style.display = 'none';
     } else {
         errorDiv.style.display = 'flex';
-        // إخفاء رسالة الخطأ بعد 3 ثواني
         setTimeout(() => {
             errorDiv.style.display = 'none';
         }, 3000);
+    }
+}
+// التحقق من الجلسة المحفوظة
+function checkSavedSession() {
+    const savedLogin = localStorage.getItem('engineeringLogin');
+    
+    if (savedLogin) {
+        const loginData = JSON.parse(savedLogin);
+        const currentTime = new Date().getTime();
+        const timeDiff = currentTime - loginData.timestamp;
+        
+        // التحقق إذا كانت الجلسة لم تنتهي (أقل من 20 دقيقة)
+        if (timeDiff < loginData.expiryTime) {
+            currentUser = loginData.user;
+            
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            
+            updateUserInterface();
+        } else {
+            // إذا انتهت الجلسة، احذف البيانات
+            localStorage.removeItem('engineeringLogin');
+        }
+    }
+}
+// منع التمرير في الصفحة الرئيسية عند فتح النوافذ
+function disableBodyScroll() {
+    document.body.style.overflow = 'hidden';
+}
+
+// إعادة التمرير في الصفحة الرئيسية عند إغلاق النوافذ
+function enableBodyScroll() {
+    document.body.style.overflow = 'auto';
+}
+
+// تعديل دوال فتح النوافذ لإضافة منع التمرير
+function openCoolingModal() {
+    if (!currentUser?.permissions.includes('cooling')) {
+        showPermissionDenied('أنظمة التبريد المركزي');
+        return;
+    }
+    document.getElementById('coolingInterface').style.display = 'flex';
+    disableBodyScroll(); // إضافة منع التمرير
+}
+
+function closeCoolingInterface() {
+    document.getElementById('coolingInterface').style.display = 'none';
+    enableBodyScroll(); // إعادة التمرير
+}
+
+// دوال وحدة الكهرباء
+function openElectricityModal() {
+    if (!currentUser?.permissions.includes('electricity')) {
+        showPermissionDenied('وحدة الكهرباء');
+        return;
+    }
+    document.getElementById('electricityModal').style.display = 'flex';
+    disableBodyScroll();
+    setTimeout(() => document.getElementById('electricityPassword').focus(), 100);
+}
+
+function closeElectricityInterface() {
+    document.getElementById('electricityInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
+// دوال نافذة الاعمال
+function openWorkModal() {
+    if (!currentUser?.permissions.includes('work')) {
+        showPermissionDenied('اعمال');
+        return;
+    }
+    document.getElementById('workInterface').style.display = 'flex';
+    fetchFolderContents('work', 'workFilesGrid');
+    disableBodyScroll();
+}
+
+function closeWorkInterface() {
+    document.getElementById('workInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
+// دوال مخططات المجمع
+function openPlansModal() {
+    if (!currentUser?.permissions.includes('plans')) {
+        showPermissionDenied('مخططات المجمع');
+        return;
+    }
+    document.getElementById('plansInterface').style.display = 'flex';
+    fetchFolderContents('plans', 'plansFilesGrid');
+    disableBodyScroll();
+}
+
+function closePlansInterface() {
+    document.getElementById('plansInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
+// دوال جدول الدوام
+function opentableModal() {
+    if (!currentUser?.permissions.includes('table')) {
+        showPermissionDenied('جدول الدوام');
+        return;
+    }
+    document.getElementById('tableInterface').style.display = 'flex';
+    fetchFolderContents('table', 'tableFilesGrid');
+    disableBodyScroll();
+}
+
+function closetableInterface() {
+    document.getElementById('tableInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
+// دوال قاعدة البيانات
+function openDatabaseModal() {
+    if (!currentUser?.permissions.includes('database')) {
+        showPermissionDenied('قاعدة البيانات');
+        return;
+    }
+    document.getElementById('databaseInterface').style.display = 'flex';
+    disableBodyScroll();
+}
+
+function closeDatabaseInterface() {
+    document.getElementById('databaseInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
+// دوال احتياط (Spare)
+function openSpareModal() {
+    if (!currentUser?.permissions.includes('spare')) {
+        showPermissionDenied('النظام الاحتياطي');
+        return;
+    }
+    document.getElementById('spareInterface').style.display = 'flex';
+    fetchFolderContents('spare', 'spareFilesGrid');
+    disableBodyScroll();
+}
+
+function closeSpareInterface() {
+    document.getElementById('spareInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
+// تعديل دالة إغلاق النوافذ عند النقر خارجها
+window.onclick = function(event) {
+    const modals = {
+        'readingsModal': closeReadingsModal,
+        'coolingModal': closeCoolingModal,
+        'coolingInterface': closeCoolingInterface,
+        'electricityModal': closeElectricityModal,
+        'electricityInterface': closeElectricityInterface,
+        'workModal': closeWorkModal,
+        'workInterface': closeWorkInterface,
+        'plansModal': closePlansModal,
+        'plansInterface': closePlansInterface,
+        'tableInterface': closetableInterface,
+        'maintenanceModal': closeMaintenanceModal,
+        'maintenanceInterface': closeMaintenanceInterface,
+        'databaseModal': closeDatabaseModal,
+        'databaseInterface': closeDatabaseInterface,
+        'spareModal': closeSpareModal,
+        'spareInterface': closeSpareInterface,
+        'addUserModal': closeAddUserModal,
+        'previewModal': closePreviewModal
+    };
+    
+    for (const [modalId, closeFunc] of Object.entries(modals)) {
+        const modal = document.getElementById(modalId);
+        if (event.target === modal) {
+            closeFunc();
+            enableBodyScroll(); // تأكيد إعادة التمرير
+        }
     }
 }
 
