@@ -3131,9 +3131,8 @@ if (structureInput) {
             "علي سعد": { 
                 password: "999888777", 
                 name: "مسؤول الشعبة", 
-                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table" , "structure"]
-            },
-            "00": { 
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table" , "structure"]},
+            "02": { 
                 password: "", 
                 name: "مرتضى عبد الكاظم", 
                 permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare" , "table"] 
@@ -3165,7 +3164,7 @@ if (structureInput) {
             "ادارية": {
                 password: "95533",
                 name: "الذاتية",
-                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table", "structure"] }
+                permissions: ["readings", "cooling", "electricity", "work", "maintenance", "database" , "table", "structure"] }
             ,
             "تبريد": {
                 password: "2021",
@@ -3177,12 +3176,17 @@ if (structureInput) {
                 password: "2000",
                 name: "م علي عقيل",
                 permissions: ["cooling", "work", "table"] }
+             ,
+            "ادارية 2": {
+                password: "0953",
+                name: "ادارية الحر",
+                permissions: ["readings", "electricity", "work", "maintenance", "database", "table"] }
         };
 
         
         // رموز الدخول للنوافذ
                 const READINGS_PASSWORD = "1";
-        const ELECTRICITY_PASSWORDS = ["1", "2", "3", "صين", "قاعة", "كهرباء"];
+        const ELECTRICITY_PASSWORDS = ["1", "كهرباء"];
         const TABLE_PASSWORD = "1";
         
         // قسم الهيكلية
