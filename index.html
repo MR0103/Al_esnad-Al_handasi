@@ -779,6 +779,7 @@ body::before {
         .card:nth-child(8) { animation-delay: 0.9s; }   /*مخططات*/
         .card:nth-child(9) { animation-delay: 1.0s; }   /*جدول الدوام*/
         .card:nth-child(10) { animation-delay: 1.1s; }  /*احتياط*/
+        .card:nth-child(11) { animation-delay: 1.2s; }  /*الهيكلية*/
         .card:nth-child(11) { animation-delay: 1.2s; }   /*إدارة المستخدمين*/
 
         .card::before {
@@ -1900,7 +1901,9 @@ body::before {
     font-size: 1.1rem;
 }
 
+
 /* القسم الأوسط - رمضان */
+/*
 .ramadan-section {
     flex: 1;
     display: flex;
@@ -1933,12 +1936,12 @@ body::before {
     transform: rotate(45deg);
     animation: shimmer 3s infinite;
 }
-
+*/
 @keyframes shimmer {
     0% { transform: translateX(-100%) rotate(45deg); }
     100% { transform: translateX(100%) rotate(45deg); }
 }
-
+/*
 .ramadan-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
@@ -1978,6 +1981,7 @@ body::before {
     color: #92400e;
     opacity: 0.8;
 }
+    */
 
 /* القسم الأيسر - الوقت والدعم */
 .header-actions {
@@ -2089,11 +2093,11 @@ body::before {
         gap: 20px;
         padding: 1.5rem;
     }
-    
+    /*
     .welcome-section, .ramadan-section, .header-actions {
         width: 100%;
         text-align: center;
-    }
+    }*/
     
     .header-actions {
         justify-content: center;
@@ -2297,6 +2301,16 @@ input[type="password"]::-webkit-reveal-button {
                             }
                         });
                     }
+const structureInput = document.getElementById('structurePassword');
+if (structureInput) {
+    structureInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            checkStructurePassword();
+        }
+    });
+}
+
                 });
             }
 
@@ -2417,7 +2431,9 @@ input[type="password"]::-webkit-reveal-button {
                 <a href="#" class="nav-item" onclick="openPlansModal()">
                     <i class="fas fa-map"></i> <span>مخططات المجمع</span>
                 </a>
-                
+                   <a href="#" class="nav-item" onclick="openStructureModal()">
+                <i class="fas fa-sitemap"></i> <span>الهيكلية</span>
+                </a>
                 <a href="#" class="nav-item" onclick="opentableModal()">
                       <i class="fas fa-calendar-alt"></i> <span>جدول الدوام</span>
                 </a>
@@ -2469,6 +2485,7 @@ input[type="password"]::-webkit-reveal-button {
                     </div>
 
                     <!-- القسم الأوسط: رمضان -->
+                     <!--
                     <div class="ramadan-section">
                         <a href="#" class="ramadan-card">
                             <div class="ramadan-icon">
@@ -2479,7 +2496,7 @@ input[type="password"]::-webkit-reveal-button {
                                 <span class="ramadan-subtitle">🌙 1447 هـ</span>
                             </div>
                         </a>
-                    </div>
+                    </div>      -->
 
                     <!-- القسم الأيسر: الوقت والدعم -->
                     <div class="header-actions">
@@ -2560,7 +2577,11 @@ input[type="password"]::-webkit-reveal-button {
                         <div class="card-title">جدول الدوام</div>
                         <div class="card-description">عرض جداول الدوام والمواعيد</div>
                     </div>
-
+                    <div class="card" onclick="openStructureModal()">
+                         <div class="card-icon"><i class="fas fa-sitemap"></i></div>
+                         <div class="card-title">الهيكلية</div>
+                         <div class="card-description">عرض هيكلية المشاريع والملفات</div>
+                    </div>
                     <div class="card" onclick="openSpareModal()">
                         <div class="card-icon"><i class="fas fa-box"></i></div>
                         <div class="card-title">احتياط (Spare)</div>
@@ -2719,24 +2740,25 @@ input[type="password"]::-webkit-reveal-button {
         </div>
     </div>
 
-    <!-- نافذة احتياط (Spare) -->
-    <div id="spareModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">نظام احتياطي (Spare)</h3>
-<button class="close-btn" onclick="closeSpareModal()">
-    <i class="fas fa-times-circle" style="color: #ef4444; font-size: 1.8rem;"></i>
-</button>       
-            </div>
-            <p>يرجى إدخال رمز الدخول:</p>
-            <input type="password" id="sparePassword" class="form-input" placeholder="رمز الدخول">
-            <div id="spareError" class="error-message">رمز الدخول غير صحيح!</div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeSpareModal()">إلغاء</button>
-                <button class="btn btn-primary" onclick="checkSparePassword()">تأكيد</button>
-            </div>
+ 
+    <!-- نافذة الهيكلية (رمز الدخول) -->
+<div id="structureModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">الهيكلية</h3>
+            <button class="close-btn" onclick="closeStructureModal()">
+                <i class="fas fa-times-circle" style="color: #ef4444; font-size: 1.8rem;"></i>
+            </button>
+        </div>
+        <p>يرجى إدخال رمز الدخول:</p>
+        <input type="password" id="structurePassword" class="form-input" placeholder="رمز الدخول">
+        <div id="structureError" class="error-message">رمز الدخول غير صحيح!</div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeStructureModal()">إلغاء</button>
+            <button class="btn btn-primary" onclick="checkStructurePassword()">تأكيد</button>
         </div>
     </div>
+</div>
 
     <!-- نافذة أنظمة التبريد (الواجهة الرئيسية) -->
     <div id="coolingInterface" class="modal" style="display: none;">
@@ -2984,6 +3006,27 @@ input[type="password"]::-webkit-reveal-button {
         </div>
     </div>
 
+<!-- نافذة الهيكلية (الواجهة الرئيسية) -->
+<div id="structureInterface" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 class="modal-title">الهيكلية <i class="fas fa-sitemap"></i></h3>
+            <button class="close-btn" onclick="closeStructureInterface()">
+                <i class="fas fa-times-circle" style="color: #ef4444; font-size: 1.8rem;"></i>
+            </button>
+        </div>
+
+        <div id="structureFiles" class="files-section">
+            <h4><i class="fas fa-folder-open"></i> الملفات المتاحة في الهيكلية</h4>
+            <div id="structureFilesGrid" class="files-grid"></div>
+        </div>
+
+        <div class="modal-actions" style="justify-content: center;">
+            <button class="btn btn-secondary" onclick="closeStructureInterface()">رجوع</button>
+        </div>
+    </div>
+</div>
+
     <!-- نافذة إضافة مستخدم -->
     <div id="addUserModal" class="modal">
         <div class="modal-content">
@@ -3037,6 +3080,9 @@ input[type="password"]::-webkit-reveal-button {
                     <label class="checkbox-item">
                         <input type="checkbox" id="permUsers" value="users"> <span>إدارة المستخدمين</span>
                     </label>
+                    <label class="checkbox-item">
+                         <input type="checkbox" id="permStructure" value="structure"> <span>الهيكلية</span>
+                    </label>
                 </div>
             </div>
             
@@ -3075,7 +3121,7 @@ input[type="password"]::-webkit-reveal-button {
             "admin": { 
     password: "78672062", 
     name: "مدير النظام", 
-    permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare", "table"] 
+    permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare", "table" , "structure"] 
 },
             "Mu": { 
                 password: "", 
@@ -3085,7 +3131,7 @@ input[type="password"]::-webkit-reveal-button {
             "علي سعد": { 
                 password: "999888777", 
                 name: "مسؤول الشعبة", 
-                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table"]
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table" , "structure"]
             },
             "00": { 
                 password: "", 
@@ -3119,7 +3165,7 @@ input[type="password"]::-webkit-reveal-button {
             "ادارية": {
                 password: "95533",
                 name: "الذاتية",
-                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table"] }
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table", "structure"] }
             ,
             "تبريد": {
                 password: "2021",
@@ -3139,6 +3185,9 @@ input[type="password"]::-webkit-reveal-button {
         const ELECTRICITY_PASSWORDS = ["1", "2", "3", "صين", "قاعة", "كهرباء"];
         const TABLE_PASSWORD = "1";
         
+        // قسم الهيكلية
+        const STRUCTURE_PASSWORD = "2021";
+
         // يمكن إزالة الثوابت غير المستخدمة أو استخدامها في دوال التحقق
 
         // إعدادات GitHub
@@ -3508,6 +3557,7 @@ function displayFolderContents(folders, files, grid, currentPath) {
             if (document.getElementById('permDatabase').checked) permissions.push('database');
             if (document.getElementById('permSpare').checked) permissions.push('spare');
             if (document.getElementById('permUsers').checked) permissions.push('users');
+            if (document.getElementById('permStructure').checked) permissions.push('structure');
             
             users[username] = { password: password, name: username, permissions: permissions };
             
@@ -3605,9 +3655,13 @@ function displayFolderContents(folders, files, grid, currentPath) {
                 document.getElementById('electricityPassword').value = '';
                 
                 fetchFolderContents('electric_unit', 'electricityFilesGrid');
-            } else {
-                document.getElementById('electricityError').style.display = 'block';
-            }
+               } else {
+        document.getElementById('electricityError').style.display = 'block';
+        // تفريغ حقل كلمة المرور تلقائياً
+        document.getElementById('electricityPassword').value = '';
+        // إعادة التركيز على حقل كلمة المرور
+        document.getElementById('electricityPassword').focus();
+    }
         }
 
         function closeElectricityInterface() {
@@ -3707,26 +3761,6 @@ function displayFolderContents(folders, files, grid, currentPath) {
             document.getElementById('databaseInterface').style.display = 'none';
         }
 
-        // دوال احتياط (Spare)
-        function openSpareModal() {
-            if (!currentUser?.permissions.includes('spare')) {
-                showPermissionDenied('النظام الاحتياطي');
-                return;
-            }
-            document.getElementById('spareInterface').style.display = 'flex';
-            fetchFolderContents('spare', 'spareFilesGrid');
-        }
-
-        function closeSpareModal() {
-            document.getElementById('spareModal').style.display = 'none';
-            document.getElementById('spareError').style.display = 'none';
-            document.getElementById('sparePassword').value = '';
-        }
-
-        function checkSparePassword() {
-            closeSpareModal();
-        }
-
         function closeSpareInterface() {
             document.getElementById('spareInterface').style.display = 'none';
         }
@@ -3821,7 +3855,6 @@ function goBack(gridId) {
         fetchFolderContents(previous.path, previous.gridId);
     } else {
         // إذا كنا في المجلد الرئيسي، نعيد تحميل المحتويات الأساسية
-        const mainFolder = gridId.replace('FilesGrid', '');
         let mainPath = '';
         
         if (gridId === 'electricityFilesGrid') mainPath = 'electric_unit';
@@ -3829,8 +3862,13 @@ function goBack(gridId) {
         else if (gridId === 'plansFilesGrid') mainPath = 'plans';
         else if (gridId === 'tableFilesGrid') mainPath = 'table';
         else if (gridId === 'spareFilesGrid') mainPath = 'spare';
+        else if (gridId === 'structureFilesGrid') mainPath = 'structure';
         
+        // مسح مسار المجلد الحالي
         window.currentFolderPath = [];
+        // مسح سجل المجلدات
+        window.folderHistory = [];
+        
         fetchFolderContents(mainPath, gridId);
     }
 }
@@ -3927,6 +3965,10 @@ function login() {
         errorDiv.style.display = 'none';
     } else {
         errorDiv.style.display = 'flex';
+        // تفريغ حقل كلمة المرور تلقائياً
+        document.getElementById('loginPassword').value = '';
+        // إعادة التركيز على حقل كلمة المرور
+        document.getElementById('loginPassword').focus();
         setTimeout(() => {
             errorDiv.style.display = 'none';
         }, 3000);
@@ -4075,28 +4117,71 @@ function closeSpareInterface() {
     enableBodyScroll();
 }
 
+// دوال الهيكلية (Structure)
+function openStructureModal() {
+    if (!currentUser?.permissions.includes('structure')) {
+        showPermissionDenied('الهيكلية');
+        return;
+    }
+    document.getElementById('structureModal').style.display = 'flex';
+    disableBodyScroll();
+    setTimeout(() => document.getElementById('structurePassword').focus(), 100);
+}
+
+function closeStructureModal() {
+    document.getElementById('structureModal').style.display = 'none';
+    document.getElementById('structureError').style.display = 'none';
+    document.getElementById('structurePassword').value = '';
+    enableBodyScroll();
+}
+
+function checkStructurePassword() {
+    const enteredPassword = document.getElementById('structurePassword').value;
+    if (enteredPassword === STRUCTURE_PASSWORD) {
+        document.getElementById('structureModal').style.display = 'none';
+        document.getElementById('structureInterface').style.display = 'flex';
+        document.getElementById('structureError').style.display = 'none';
+        document.getElementById('structurePassword').value = '';
+        
+        fetchFolderContents('structure', 'structureFilesGrid');
+        } else {
+        document.getElementById('structureError').style.display = 'block';
+        // تفريغ حقل كلمة المرور تلقائياً
+        document.getElementById('structurePassword').value = '';
+        // إعادة التركيز على حقل كلمة المرور
+        document.getElementById('structurePassword').focus();
+    }
+}
+
+function closeStructureInterface() {
+    document.getElementById('structureInterface').style.display = 'none';
+    enableBodyScroll();
+}
+
 // تعديل دالة إغلاق النوافذ عند النقر خارجها
 window.onclick = function(event) {
     const modals = {
-        'readingsModal': closeReadingsModal,
-        'coolingModal': closeCoolingModal,
-        'coolingInterface': closeCoolingInterface,
-        'electricityModal': closeElectricityModal,
-        'electricityInterface': closeElectricityInterface,
-        'workModal': closeWorkModal,
-        'workInterface': closeWorkInterface,
-        'plansModal': closePlansModal,
-        'plansInterface': closePlansInterface,
-        'tableInterface': closetableInterface,
-        'maintenanceModal': closeMaintenanceModal,
-        'maintenanceInterface': closeMaintenanceInterface,
-        'databaseModal': closeDatabaseModal,
-        'databaseInterface': closeDatabaseInterface,
-        'spareModal': closeSpareModal,
-        'spareInterface': closeSpareInterface,
-        'addUserModal': closeAddUserModal,
-        'previewModal': closePreviewModal
-    };
+    'readingsModal': closeReadingsModal,
+    'coolingModal': closeCoolingModal,
+    'coolingInterface': closeCoolingInterface,
+    'electricityModal': closeElectricityModal,
+    'electricityInterface': closeElectricityInterface,
+    'workModal': closeWorkModal,
+    'workInterface': closeWorkInterface,
+    'plansModal': closePlansModal,
+    'plansInterface': closePlansInterface,
+    'tableInterface': closetableInterface,
+    'maintenanceModal': closeMaintenanceModal,
+    'maintenanceInterface': closeMaintenanceInterface,
+    'databaseModal': closeDatabaseModal,
+    'databaseInterface': closeDatabaseInterface,
+    'spareModal': closeSpareModal,
+    'spareInterface': closeSpareInterface,
+    'structureModal': closeStructureModal,
+    'structureInterface': closeStructureInterface,
+    'addUserModal': closeAddUserModal,
+    'previewModal': closePreviewModal
+};
     
     for (const [modalId, closeFunc] of Object.entries(modals)) {
         const modal = document.getElementById(modalId);
