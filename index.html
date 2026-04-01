@@ -3118,47 +3118,41 @@ if (structureInput) {
     <script>
         // ========== بيانات المستخدمين والصلاحيات ==========
         const users = {
+
             "admin": { 
     password: "78672062", 
     name: "مدير النظام", 
-    permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare", "table" , "structure"] 
-},
+    permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare", "table" , "structure"] },
+
             "Mu": { 
                 password: "", 
                 name: "مصطفى عبدالرضا", 
-                permissions: [ "cooling"] 
-            },
+                permissions: [ "cooling"] },
+
             "علي سعد": { 
                 password: "999888777", 
                 name: "مسؤول الشعبة", 
-                permissions: ["readings", "cooling", "electricity", "work",  "maintenance", "database" , "table" , "structure"]},
-            "02": { 
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare" , "table" , "structure"]},
+          
+           "02": { 
                 password: "", 
                 name: "مرتضى عبد الكاظم", 
-                permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare" , "table"] 
-             },
+                permissions: ["readings", "cooling", "electricity", "users", "work", "plans", "maintenance", "database", "spare" , "table"] },
+           
             "رضا": {
                 password: "رضا",
                 name: "مهندس رضا",
-                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare"] 
-            } ,
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare"] } ,
             
             "علي يسري": {
                 password: "1997",
                 name: "م علي يسري",
                 permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database", "spare"] },
-
-             "سيد صالح": {
-                password: "2021",
-                name: "سيد صالح",
-                permissions: ["readings" "electricity"] },
             
             "كهرباء": {
                 password: "ats",
                 name: "وحدة الكهرباء",
-                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database","table"] 
-            }
-            ,
+                permissions: ["readings", "cooling", "electricity", "work", "plans", "maintenance", "database","table"] },
             
             "hamza": {
                 password: "2001",
@@ -3178,19 +3172,23 @@ if (structureInput) {
             "تبريد": {
                 password: "2021",
                 name: "وحدة التبريد",
-                permissions: ["cooling", "work", "table"] }
+                permissions: ["cooling", "work", "table"] },
 
-             ,
             "علي عقيل": {
                 password: "2000",
                 name: "م علي عقيل",
-                permissions: ["cooling", "work", "table"] }
-             ,
+                permissions: ["cooling", "work", "table"] },
+
             "ادارية 2": {
                 password: "0953",
                 name: "ادارية الحر",
-                permissions: ["readings", "electricity", "work", "maintenance", "database", "table"] }
-        };
+                permissions: ["readings", "electricity", "work", "maintenance", "database", "table"] } ,
+
+             "سيد صالح": {
+                password: "2021",
+                name: "سيد صالح",
+                permissions: ["readings", "electricity", "table"] }
+};
 
         
         // رموز الدخول للنوافذ
