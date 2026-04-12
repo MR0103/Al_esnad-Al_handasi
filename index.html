@@ -3201,9 +3201,9 @@ if (structureInput) {
         // يمكن إزالة الثوابت غير المستخدمة أو استخدامها في دوال التحقق
 
         // إعدادات GitHub
-        //const GITHUB_USERNAME = 'mr0103';
-       // const REPO_NAME = 'Al_esnad-Al_handasi';
-       const BASE_URL = "https://every-talked-left-vertex.trycloudflare.com/files/Al_esnad-Al_handasi/";
+        const GITHUB_USERNAME = 'mr0103';
+        const REPO_NAME = 'Al_esnad-Al_handasi';
+        const BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/`;
 
         let currentUser = null;
         let viewMode = 'internal';
@@ -3247,33 +3247,19 @@ async function fetchFolderContents(folderName, gridId) {
     grid.innerHTML = '<div class="loading-files"><i class="fas fa-spinner"></i><br>جاري تحميل الملفات...</div>';
 
     try {
-       const url = BASE_URL + folderName.replace("Al_esnad-Al_handasi/", "");
+        const url = `${BASE_URL}${folderName}`;
         const response = await fetch(url);
         
         if (!response.ok) {
             throw new Error('فشل في تحميل الملفات');
         }
 
-        const text = await response.text();
-const parser = new DOMParser();
-const doc = parser.parseFromString(text, "text/html");
-
-const links = Array.from(doc.querySelectorAll("a"));
-
-const items = links
-    .map(link => link.getAttribute("href"))
-    .filter(href =>
-        href &&
-        !href.includes("..") &&
-        !href.startsWith("?") &&
-        !href.startsWith("/")
-    )
-    .map(href => {
-        return {
-            name: decodeURIComponent(href),
-            path: folderName + "/" + href
-        };
-    });
+        const items = await response.json();
+        
+        if (!items || items.length === 0) {
+            grid.innerHTML = '<div class="empty-folder">لا توجد ملفات في هذا المجلد حالياً</div>';
+            return;
+        }
 
         // فصل المجلدات عن الملفات
         const folders = items.filter(item => item.type === 'dir');
@@ -3329,8 +3315,7 @@ function displayFolderContents(folders, files, grid, currentPath) {
         
         const fileName = file.name;
         const filePath = file.path;
-        const fileUrl = BASE_URL + filePath;
-       // const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${filePath}`;
+        const fileUrl = `https://${GITHUB_USERNAME}.github.io/${REPO_NAME}/${filePath}`;
         const fileExtension = fileName.split('.').pop().toLowerCase();
         
         let iconClass = 'other';
